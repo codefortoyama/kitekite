@@ -1018,3 +1018,57 @@ body {
   .section-title::after { display: none; }
   .section-lead { padding-left: 14px; }
 }
+
+/* ============================================================
+   サブページ（プライバシーポリシー・投稿ガイドライン・リンク集）
+============================================================ */
+.subpage-main { padding-top: var(--header-h); }
+
+/* ヘッダー右側の「トップページへ」リンク */
+.subpage-back {
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 44px; padding: 8px 18px;
+  border: 2px solid var(--border); border-radius: 999px;
+  color: var(--deep); text-decoration: none;
+  font-weight: 700; font-size: 0.92rem; white-space: nowrap;
+}
+.subpage-back:hover { border-color: var(--sky); background: var(--sky-light); }
+
+/* 文書レイアウト */
+.doc-date { color: var(--text-sub); font-size: 0.85rem; margin-bottom: 28px; }
+.doc h2 {
+  font-size: 1.15rem; font-weight: 900; color: var(--deep);
+  margin: 36px 0 12px;
+  padding-left: 12px; border-left: 5px solid var(--sky);
+}
+.doc p { margin-bottom: 14px; }
+.doc ul { margin: 0 0 14px; padding-left: 1.5em; }
+.doc li { margin-bottom: 6px; }
+.doc-note {
+  background: #f6f8fa; border-left: 4px solid var(--sky);
+  padding: 14px 18px; border-radius: 0 8px 8px 0;
+  font-size: 0.9rem; color: var(--text-sub); margin: 20px 0;
+}
+
+/* リンク集のカード */
+.link-cards {
+  list-style: none; padding: 0; margin: 0 0 10px;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+}
+.link-cards a {
+  display: block; min-height: 52px; padding: 14px 18px;
+  background: var(--white); border: 1px solid var(--border); border-radius: 10px;
+  text-decoration: none; color: var(--text);
+  box-shadow: 0 2px 8px rgba(15, 58, 95, 0.06);
+  transition: border-color 0.15s;
+}
+.link-cards a:hover { border-color: var(--sky); }
+.link-cards .link-name {
+  font-weight: 700; color: var(--deep);
+  display: flex; justify-content: space-between; gap: 8px;
+}
+.link-cards .link-desc { font-size: 0.85rem; color: var(--text-sub); margin-top: 2px; }
+
+@media (max-width: 767px) {
+  .link-cards { grid-template-columns: 1fr; }
+}
