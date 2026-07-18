@@ -296,7 +296,7 @@ function ROUTES_TO_TOKYO() {
     spot: "東京駅・丸の内",
     trainRoute: "富山駅 → 北陸新幹線 → 東京駅",
     trainTime: "約2時間10分",
-    planeRoute: "連絡バス → 富山空港 →✈ 羽田空港 → モノレール・京急",
+    planeRoute: "富山空港 →✈ 羽田空港 → モノレール・京急",
     planeTime: "約2時間45分",
     advantage: "train",
     point: "都心のど真ん中へは乗り換えなしの新幹線が最短。"
@@ -305,7 +305,7 @@ function ROUTES_TO_TOKYO() {
     spot: "さいたまスーパーアリーナ",
     trainRoute: "富山駅 → 北陸新幹線 → 大宮駅 → さいたま新都心駅",
     trainTime: "約2時間5分",
-    planeRoute: "連絡バス → 富山空港 →✈ 羽田空港 → 電車・バス",
+    planeRoute: "富山空港 →✈ 羽田空港 → 電車・バス",
     planeTime: "約3時間20分",
     advantage: "train",
     point: "新幹線が停まる大宮からわずか1駅。埼玉方面の遠征は新幹線が圧倒的。"
@@ -314,7 +314,7 @@ function ROUTES_TO_TOKYO() {
     spot: "東京ドーム",
     trainRoute: "富山駅 → 東京駅 → 中央線・三田線ほか 水道橋",
     trainTime: "約2時間30分",
-    planeRoute: "連絡バス → 富山空港 →✈ 羽田空港 → 電車",
+    planeRoute: "富山空港 →✈ 羽田空港 → 電車",
     planeTime: "約3時間",
     advantage: "train",
     point: "東京駅から2駅圏内。野球観戦もライブも新幹線がスムーズ。"
@@ -323,7 +323,7 @@ function ROUTES_TO_TOKYO() {
     spot: "渋谷・原宿",
     trainRoute: "富山駅 → 東京駅 → 山手線 渋谷駅",
     trainTime: "約2時間35分",
-    planeRoute: "連絡バス → 富山空港 →✈ 羽田空港 → リムジンバス・京急",
+    planeRoute: "富山空港 →✈ 羽田空港 → リムジンバス・京急",
     planeTime: "約2時間50分",
     advantage: "even",
     point: "羽田から渋谷方面は直行バスもあり、荷物が多い日は飛行機も快適。"
@@ -332,7 +332,7 @@ function ROUTES_TO_TOKYO() {
     spot: "東京スカイツリー",
     trainRoute: "富山駅 → 東京駅 → 押上駅",
     trainTime: "約2時間40分",
-    planeRoute: "連絡バス → 富山空港 →✈ 羽田空港 → 京急・浅草線直通 押上駅",
+    planeRoute: "富山空港 →✈ 羽田空港 → 京急・浅草線直通 押上駅",
     planeTime: "約2時間50分",
     advantage: "even",
     point: "羽田からは押上まで乗り換えなしの直通電車があるのが隠れた強み。"
@@ -341,7 +341,7 @@ function ROUTES_TO_TOKYO() {
     spot: "東京ビッグサイト",
     trainRoute: "富山駅 → 東京駅 → りんかい線 国際展示場駅",
     trainTime: "約2時間45分",
-    planeRoute: "連絡バス → 富山空港 →✈ 羽田空港 → 直行バス・りんかい線",
+    planeRoute: "富山空港 →✈ 羽田空港 → 直行バス・りんかい線",
     planeTime: "約2時間35分",
     advantage: "plane",
     point: "羽田から臨海部は目と鼻の先。コミケ・展示会遠征は飛行機が便利。"
@@ -350,7 +350,7 @@ function ROUTES_TO_TOKYO() {
     spot: "お台場（ダイバーシティほか）",
     trainRoute: "富山駅 → 東京駅 → ゆりかもめ・りんかい線",
     trainTime: "約2時間45分",
-    planeRoute: "連絡バス → 富山空港 →✈ 羽田空港 → 直行バス約20分",
+    planeRoute: "富山空港 →✈ 羽田空港 → 直行バス約20分",
     planeTime: "約2時間30分",
     advantage: "plane",
     point: "羽田からお台場へはバスで一本。臨海エリアは飛行機の独壇場。"
@@ -359,7 +359,7 @@ function ROUTES_TO_TOKYO() {
     spot: "幕張メッセ",
     trainRoute: "富山駅 → 東京駅 → 京葉線 海浜幕張駅",
     trainTime: "約2時間50分",
-    planeRoute: "連絡バス → 富山空港 →✈ 羽田空港 → 高速バス 海浜幕張",
+    planeRoute: "富山空港 →✈ 羽田空港 → 高速バス 海浜幕張",
     planeTime: "約2時間50分",
     advantage: "even",
     point: "羽田から海浜幕張へ直行バスあり。東京駅の京葉線ホームは遠いので注意。"
@@ -368,7 +368,7 @@ function ROUTES_TO_TOKYO() {
     spot: "横浜アリーナ（新横浜）",
     trainRoute: "富山駅 → 東京駅 → 東海道新幹線・横浜線 新横浜駅",
     trainTime: "約2時間50分",
-    planeRoute: "連絡バス → 富山空港 →✈ 羽田空港 → 直行バス 新横浜",
+    planeRoute: "富山空港 →✈ 羽田空港 → 直行バス 新横浜",
     planeTime: "約2時間40分",
     advantage: "plane",
     point: "羽田から新横浜へは直行バスが便利。ライブ遠征の定番ルート。"
@@ -377,7 +377,7 @@ function ROUTES_TO_TOKYO() {
     spot: "横浜・みなとみらい",
     trainRoute: "富山駅 → 東京駅 → 東海道線 → みなとみらい線",
     trainTime: "約2時間50分",
-    planeRoute: "連絡バス → 富山空港 →✈ 羽田空港 → 京急 横浜駅",
+    planeRoute: "富山空港 →✈ 羽田空港 → 京急 横浜駅",
     planeTime: "約2時間35分",
     advantage: "plane",
     point: "羽田〜横浜は京急で約25分。横浜方面は飛行機が近道になりやすい。"
