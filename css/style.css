@@ -676,9 +676,12 @@ a:hover { color: var(--deep); }
   padding: 14px 10px 6px;
 }
 .aircraft-art svg { width: 100%; height: auto; display: block; }
+.aircraft-art img { width: 100%; height: auto; display: block; border-radius: 10px; }
 .aircraft-body { padding: 16px 20px 20px; }
 .aircraft-name { font-size: 1rem; color: var(--deep); margin-bottom: 6px; }
 .aircraft-desc { font-size: 0.9rem; color: var(--text-sub); }
+.aircraft-credit { margin-top: 8px; font-size: 0.78rem; color: var(--text-sub); line-height: 1.5; }
+.aircraft-credit a { color: var(--sky); }
 
 .specs-disclaimer {
   margin-top: 24px; font-size: 0.85rem; color: var(--text-sub);
