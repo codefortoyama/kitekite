@@ -746,9 +746,19 @@
       if (lookupRunning) return;
       lookupRunning = true;
       try {
+        // 未判定の便を「富山空港に近い順」に照会する（遠方の混雑で富山便が後回しにならないように）
         const targets = Object.keys(markerByCallsign)
           .filter(function (cs) { return !routeCache.has(cs); })
-          .slice(0, 8);
+          .map(function (cs) {
+            const ac = markerByCallsign[cs].ac;
+            // 距離の比較用の概算値（緯度1度≒111km、この緯度の経度1度≒89km）
+            const dLat = (ac.lat - AIRPORT.lat) * 111;
+            const dLon = (ac.lon - AIRPORT.lon) * 89;
+            return { cs: cs, d: dLat * dLat + dLon * dLon };
+          })
+          .sort(function (a, b) { return a.d - b.d; })
+          .slice(0, 8)
+          .map(function (t) { return t.cs; });
 
         for (let i = 0; i < targets.length; i++) {
           const cs = targets[i];
