@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ===== SEO ===== -->
+  <title>富山きてきて空港｜富山空港を応援する非公式ファンサイト</title>
+  <meta name="description" content="富山空港を応援する非公式ファンサイト『富山きてきて空港』。富山空港周辺のフライトマップ、東京から富山県内各地への移動時間比較、利用者から寄せられた空港情報を紹介します。">
+
+  <!-- canonical URL：公開時に実際のURLへ書き換えてください -->
+  <link rel="canonical" href="https://tominarievo.github.io/kitekite/">
+
+  <!-- ===== OGP / SNS ===== -->
+  <!-- og:url / og:image は公開時に実際のURLへ書き換えてください -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="富山きてきて空港">
+  <meta property="og:title" content="富山きてきて空港｜富山空港を応援する非公式ファンサイト">
+  <meta property="og:description" content="富山空港周辺のフライトマップ、東京から富山県内各地への移動時間比較、利用者から寄せられた空港情報を紹介する非公式ファンサイトです。">
+  <meta property="og:url" content="https://tominarievo.github.io/kitekite/">
+  <meta property="og:image" content="https://tominarievo.github.io/kitekite/ogp.png">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="富山きてきて空港｜富山空港を応援する非公式ファンサイト">
+  <meta name="twitter:description" content="富山空港周辺のフライトマップ、移動時間比較、利用者投稿を紹介する非公式ファンサイトです。">
+
+  <!-- ===== favicon：画像を用意したら差し替えてください（現在はインラインSVG） ===== -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232b8fd6'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle'%3E%E2%9C%88%EF%B8%8F%3C/text%3E%3C/svg%3E">
+
+  <!-- ===== フォント：読み込み失敗時はシステムのゴシック体にフォールバック ===== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- ===== Leaflet（ライブフライトマップ用・SRI付き） ===== -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- ===== 構造化データ（JSON-LD）：必要に応じて追記できます ===== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "富山きてきて空港",
+    "alternateName": "富山空港 非公式応援サイト",
+    "description": "富山空港を応援する非公式ファンサイト。フライトマップ、移動時間比較、利用者投稿を紹介します。",
+    "url": "https://tominarievo.github.io/kitekite/"
+  }
+  </script>
+</head>
+<body id="top">
+
+  <!-- スクリーンリーダー・キーボード利用者向けスキップリンク -->
+  <a class="skip-link" href="#main">本文へスキップ</a>
+
+  <!-- ============================================================
+       1. ヘッダー（スクロール時に上部固定）
+  ============================================================ -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="site-logo" href="#top">
+        <span class="logo-mark" aria-hidden="true">✈</span>
+        富山きてきて空港
+      </a>
+
+      <!-- ハンバーガーボタン（モバイルのみ表示） -->
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="global-nav" aria-label="メニューを開く">
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+      </button>
+
+      <nav class="global-nav" id="global-nav" aria-label="メインナビゲーション">
+        <ul>
+          <li><a href="#compare">移動時間比較</a></li>
+          <li><a href="#flight-map">フライトマップ</a></li>
+          <li><a href="#posts">みんなの投稿</a></li>
+          <li><a class="nav-cta" href="#submit">情報を投稿する</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============================================================
+         2. メインビジュアル
+    ============================================================ -->
+    <section class="hero" aria-labelledby="hero-title">
+      <!-- 立山連峰と飛行機をイメージした装飾（インラインSVG・画像不要） -->
+      <div class="hero-bg" aria-hidden="true">
+        <svg class="hero-sky" viewBox="0 0 1440 560" preserveAspectRatio="xMidYMax slice" role="presentation" focusable="false">
+          <!-- 空のグラデーション -->
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#8ecdf2"/>
+              <stop offset="70%" stop-color="#d9eefb"/>
+              <stop offset="100%" stop-color="#f3fafe"/>
+            </linearGradient>
+            <linearGradient id="mtn-back" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#b7d6ea"/>
+              <stop offset="100%" stop-color="#d5e8f4"/>
+            </linearGradient>
+            <linearGradient id="mtn-front" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#c9e2f2"/>
+            </linearGradient>
+          </defs>
+          <rect width="1440" height="560" fill="url(#sky)"/>
+          <!-- 雲 -->
+          <ellipse cx="240" cy="110" rx="110" ry="26" fill="#ffffff" opacity="0.85"/>
+          <ellipse cx="320" cy="130" rx="80" ry="20" fill="#ffffff" opacity="0.7"/>
+          <ellipse cx="1150" cy="90" rx="130" ry="28" fill="#ffffff" opacity="0.8"/>
+          <ellipse cx="1050" cy="115" rx="90" ry="20" fill="#ffffff" opacity="0.6"/>
+          <!-- 立山連峰（奥） -->
+          <path d="M0 430 L140 300 L260 400 L400 260 L540 390 L680 280 L820 400 L960 250 L1100 380 L1240 290 L1360 380 L1440 330 L1440 560 L0 560 Z" fill="url(#mtn-back)"/>
+          <!-- 立山連峰（手前・冠雪） -->
+          <path d="M0 480 L180 350 L320 450 L500 320 L660 450 L860 330 L1040 460 L1220 360 L1440 470 L1440 560 L0 560 Z" fill="url(#mtn-front)"/>
+          <!-- 富山湾を思わせる帯 -->
+          <rect y="520" width="1440" height="40" fill="#0f3a5f" opacity="0.12"/>
+          <!-- 飛行機と航跡 -->
+          <g class="hero-plane">
+            <path d="M980 150 q120 -18 240 -8" stroke="#ffffff" stroke-width="5" stroke-dasharray="2 14" stroke-linecap="round" fill="none" opacity="0.9"/>
+            <g transform="translate(1225 128) rotate(6)">
+              <path d="M0 12 L46 6 L60 10 L46 14 Z" fill="#2b8fd6"/>
+              <path d="M20 10 L10 -6 L16 -6 L30 9 Z" fill="#5db1e4"/>
+              <path d="M20 12 L12 26 L18 26 L30 12 Z" fill="#5db1e4"/>
+              <path d="M46 6 L52 0 L56 1 L52 8 Z" fill="#2b8fd6"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="hero-content">
+        <!-- 非公式サイトであることをファーストビューで明示 -->
+        <p class="unofficial-badge">⚑ 当サイトは富山空港を応援する<strong>非公式</strong>の私設ファンサイトです</p>
+
+        <h1 id="hero-title" class="hero-title">富山へ行くなら、<wbr>空からも。</h1>
+        <p class="hero-sub">富山空港を、もっと身近に。もっと便利に。</p>
+        <p class="hero-note">
+          「富山きてきて空港」は、富山空港を応援する非公式の私設ファンサイトです。
+          フライト情報や移動時間、利用者から寄せられた情報を紹介します。
+        </p>
+
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#flight-map">現在のフライトを見る</a>
+          <a class="btn btn-secondary" href="#posts">みんなの投稿を見る</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         3. 移動時間比較
+    ============================================================ -->
+    <section class="section section-compare" id="compare" aria-labelledby="compare-title">
+      <div class="section-inner">
+        <h2 class="section-title" id="compare-title"><span class="section-icon" aria-hidden="true">🗺️</span>東京⇔富山、<wbr>飛行機と新幹線を比べてみよう</h2>
+        <p class="section-lead">
+          東京から富山の観光地へ、そして富山から首都圏のイベント会場・観光スポットへ。
+          それぞれのおおよその所要時間を比較しました。目的地や方向によって便利な交通手段は変わります。
+          旅のプランに合わせて選んでみてください。
+        </p>
+
+        <!-- 凡例：色だけに頼らずアイコン＋文字でも区別 -->
+        <div class="compare-legend" role="note">
+          <span class="legend-item legend-plane"><span class="legend-icon" aria-hidden="true">✈</span> 飛行機が便利なケース</span>
+          <span class="legend-item legend-train"><span class="legend-icon" aria-hidden="true">🚄</span> 新幹線が便利なケース</span>
+          <span class="legend-item legend-even"><span class="legend-icon" aria-hidden="true">⚖</span> どちらも便利</span>
+        </div>
+
+        <h3 class="compare-subtitle">所要時間でくらべる</h3>
+        <p class="sample-tag">※ 以下はサンプル（目安）データです</p>
+
+        <!-- 方向切り替えタブ（ボタンはJSがROUTE_TABSから生成） -->
+        <div class="compare-tabs" id="compare-tabs" role="tablist" aria-label="移動の方向"><!-- js/main.js がデータから生成 --></div>
+
+        <div id="compare-panel" role="tabpanel">
+          <!-- PC：比較表（JSで生成） -->
+          <div class="compare-table-wrap">
+            <table class="compare-table" id="compare-table">
+              <caption class="visually-hidden">東京と富山県内主要スポットの間の移動時間比較（目安）</caption>
+              <thead>
+                <tr>
+                  <th scope="col" id="col-spot">訪問スポット</th>
+                  <th scope="col">新幹線ルート</th>
+                  <th scope="col">目安時間</th>
+                  <th scope="col">飛行機ルート</th>
+                  <th scope="col">目安時間</th>
+                  <th scope="col">おすすめポイント</th>
+                </tr>
+              </thead>
+              <tbody><!-- js/main.js がデータから生成 --></tbody>
+            </table>
+          </div>
+
+          <!-- スマホ：カード表示（JSで生成） -->
+          <div class="compare-cards" id="compare-cards"><!-- js/main.js がデータから生成 --></div>
+        </div>
+
+        <p class="compare-disclaimer">
+          掲載している所要時間は、乗り換えや待ち時間を含む概算です。天候、運行状況、利用する交通機関によって変動します。
+          実際の旅行前には、各交通機関の公式情報をご確認ください。
+        </p>
+
+        <!-- 運賃比較（東京⇔富山・買い方別） -->
+        <h3 class="compare-subtitle">運賃でくらべる</h3>
+        <p class="sample-tag">※ 金額はサンプル（目安）です</p>
+
+        <!-- PC：運賃表（JSで生成） -->
+        <div class="compare-table-wrap">
+          <table class="compare-table fare-table" id="fare-table">
+            <caption class="visually-hidden">東京と富山の間の運賃比較（買い方別・目安）</caption>
+            <thead>
+              <tr>
+                <th scope="col">購入パターン</th>
+                <th scope="col">新幹線（目安）</th>
+                <th scope="col">飛行機（目安）</th>
+                <th scope="col">ポイント</th>
+              </tr>
+            </thead>
+            <tbody><!-- js/main.js がデータから生成 --></tbody>
+          </table>
+        </div>
+
+        <!-- スマホ：運賃カード（JSで生成） -->
+        <div class="compare-cards" id="fare-cards"><!-- js/main.js がデータから生成 --></div>
+
+        <p class="compare-disclaimer">
+          掲載している金額は比較の感覚をつかむためのサンプルです。運賃・料金は季節、空席状況、購入タイミング、
+          キャンペーンの有無によって大きく変動します。実際の金額は必ず各交通機関・販売サイトの公式情報をご確認ください。
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         4. フライトマップ
+    ============================================================ -->
+    <section class="section section-map" id="flight-map" aria-labelledby="map-title">
+      <div class="section-inner">
+        <h2 class="section-title" id="map-title"><span class="section-icon" aria-hidden="true">🛫</span>いま、富山空港の空は？</h2>
+        <p class="section-lead">
+          富山空港周辺を飛行している航空機を、ライブマップで確認できます。
+          データは有志のADS-B受信ネットワークによるもので、すべての機体が表示されるとは限りません。
+        </p>
+
+        <div class="map-wrap">
+          <span class="map-badge">外部データ</span>
+
+          <!-- ライブマップ本体（Leaflet + airplanes.live API・APIキー不要）
+               Leaflet が読み込めない環境では下の静的地図（iframe）に自動で切り替わります -->
+          <div id="live-map" class="map-frame" aria-label="富山空港周辺の航空機ライブマップ"></div>
+
+          <!-- フォールバック用の静的地図（OpenStreetMap 埋め込み） -->
+          <iframe
+            id="map-fallback"
+            class="map-frame"
+            hidden
+            src="https://www.openstreetmap.org/export/embed.html?bbox=136.98%2C36.55%2C137.40%2C36.75&amp;layer=mapnik&amp;marker=36.6483%2C137.1875"
+            title="富山空港周辺の地図（OpenStreetMap）"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+          <!-- 取得状況の表示（スクリーンリーダーにも通知） -->
+          <p class="map-status" id="map-status" role="status">航空機データを読み込んでいます…</p>
+
+          <p class="map-legend">
+            <span class="map-legend-toy" aria-hidden="true">✈</span> 赤いアイコンは富山空港（TOY）発着とみられる航空機です（経路データによる推定）。
+            富山便は1日数往復のため、飛んでいない時間帯もあります。
+          </p>
+          <p class="map-caption">
+            地図：<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap contributors</a>
+            ／ 航空機データ：<a href="https://airplanes.live/" target="_blank" rel="noopener noreferrer">airplanes.live</a> ほか
+            ／ 経路データ：<a href="https://www.adsbdb.com/" target="_blank" rel="noopener noreferrer">adsbdb.com</a>（有志によるオープンデータ・参考情報）
+          </p>
+        </div>
+
+        <!-- 発着時刻・運航状況は公式サイトへ誘導（正確な情報は公式に任せる方針） -->
+        <div class="map-actions">
+          <a class="btn btn-primary"
+             href="https://www.toyama-airport.jp/flight/"
+             target="_blank" rel="noopener noreferrer">
+            本日の発着状況・時刻表を見る（公式サイト）
+            <span class="external-icon" aria-hidden="true">↗</span>
+            <span class="visually-hidden">（新しいタブで開きます）</span>
+          </a>
+          <p class="map-note">
+            発着時刻・運航状況の正確な情報は、富山空港の公式サイトでご確認ください。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         5. 投稿情報表示欄
+    ============================================================ -->
+    <section class="section section-posts" id="posts" aria-labelledby="posts-title">
+      <div class="section-inner">
+        <h2 class="section-title" id="posts-title"><span class="section-icon" aria-hidden="true">📮</span>みんなから届いた富山空港情報</h2>
+        <p class="section-lead">
+          利用者のみなさんから寄せられた情報を紹介します。掲載内容は投稿時点のものです。
+          <strong>最新の情報は必ず公式情報をご確認ください。</strong>
+        </p>
+
+        <!-- カテゴリー絞り込み（JSで生成） -->
+        <div class="post-filters" id="post-filters" role="group" aria-label="カテゴリーで絞り込み"><!-- js/main.js がデータから生成 --></div>
+
+        <!-- 投稿カード一覧（JSで生成） -->
+        <div class="post-grid" id="post-grid" aria-live="polite"><!-- js/main.js がデータから生成 --></div>
+
+        <!-- 投稿0件のときの空状態表示 -->
+        <div class="posts-empty" id="posts-empty" hidden>
+          <p class="posts-empty-icon" aria-hidden="true">🛄</p>
+          <p>投稿はまだありません。</p>
+          <p>あなたの情報が最初の1件になるかも？ <a href="#submit">情報を投稿する</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         6. 情報投稿フォーム
+    ============================================================ -->
+    <section class="section section-form" id="submit" aria-labelledby="form-title">
+      <div class="section-inner section-inner-narrow">
+        <h2 class="section-title" id="form-title"><span class="section-icon" aria-hidden="true">✍️</span>あなたの富山空港情報を教えてください</h2>
+        <p class="section-lead">
+          富山空港を利用して気づいたこと、おすすめ情報、イベント情報などをお寄せください。
+          投稿いただいた内容は、<strong>管理者が確認したうえで掲載</strong>します（そのまま自動公開はされません）。
+        </p>
+
+        <!-- Googleフォーム埋め込み（公式の埋め込み方法）
+             質問の追加・変更・回答の確認は Google フォーム側で行います。
+             ※ 新しいGoogleフォームは外部からの直接POSTを受け付けないため、埋め込み方式を採用 -->
+        <div class="gform-wrap">
+          <iframe
+            class="gform-frame"
+            src="https://docs.google.com/forms/d/e/1FAIpQLSfr65rBYOiCzlXMsnd-mfWqNYSQtsPqirxdB27hkyxzTQAsKA/viewform?embedded=true"
+            title="富山空港情報の投稿フォーム（Googleフォーム）"
+            loading="lazy">読み込んでいます…</iframe>
+        </div>
+        <p class="gform-note">
+          フォームが表示されない場合は、
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfr65rBYOiCzlXMsnd-mfWqNYSQtsPqirxdB27hkyxzTQAsKA/viewform"
+             target="_blank" rel="noopener noreferrer">こちらから直接開いて</a>ください
+          <span class="visually-hidden">（新しいタブで開きます）</span>。
+          画像を共有したい場合は、外部サービスにアップロードしたうえでURLを「参考URL」欄にご記入ください。
+        </p>
+
+        <!-- ▼ 以下の自作フォームは現在未使用（Formspree等に接続する場合に再利用可。README §9 参照） -->
+        <form id="post-form" class="post-form" novalidate hidden>
+          <p class="form-legend"><span class="required-mark">必須</span> の項目は入力が必要です。それ以外は任意です。</p>
+
+          <!-- 投稿者名（必須） -->
+          <div class="form-field">
+            <label for="f-name">投稿者名またはニックネーム <span class="required-mark">必須</span></label>
+            <input type="text" id="f-name" name="name" required maxlength="30" autocomplete="nickname" placeholder="例：きときと太郎">
+            <p class="field-error" id="err-name" hidden></p>
+          </div>
+
+          <!-- メールアドレス（任意） -->
+          <div class="form-field">
+            <label for="f-email">メールアドレス <span class="optional-mark">任意</span></label>
+            <input type="email" id="f-email" name="email" autocomplete="email" placeholder="例：example@example.com">
+            <p class="field-hint">掲載はされません。内容の確認が必要な場合のみ使用する想定です。</p>
+            <p class="field-error" id="err-email" hidden></p>
+          </div>
+
+          <!-- カテゴリー（必須／JSで選択肢を生成） -->
+          <div class="form-field">
+            <label for="f-category">投稿カテゴリー <span class="required-mark">必須</span></label>
+            <select id="f-category" name="category" required>
+              <option value="">選択してください</option>
+              <!-- js/main.js がデータから生成 -->
+            </select>
+            <p class="field-error" id="err-category" hidden></p>
+          </div>
+
+          <!-- タイトル（必須・文字数カウンター付き） -->
+          <div class="form-field">
+            <label for="f-title">投稿タイトル <span class="required-mark">必須</span></label>
+            <input type="text" id="f-title" name="title" required maxlength="50" placeholder="例：空港売店で見つけたおすすめのお土産">
+            <p class="field-hint"><span id="count-title">0</span> / 50文字</p>
+            <p class="field-error" id="err-title" hidden></p>
+          </div>
+
+          <!-- 本文（必須・文字数カウンター付き） -->
+          <div class="form-field">
+            <label for="f-body">投稿本文 <span class="required-mark">必須</span></label>
+            <textarea id="f-body" name="body" required rows="6" maxlength="800" placeholder="いつ・どこで・どんな情報かが分かるように書いていただけると助かります。"></textarea>
+            <p class="field-hint"><span id="count-body">0</span> / 800文字</p>
+            <p class="field-error" id="err-body" hidden></p>
+          </div>
+
+          <!-- 参考URL（任意） -->
+          <div class="form-field">
+            <label for="f-url">参考URL <span class="optional-mark">任意</span></label>
+            <input type="url" id="f-url" name="url" inputmode="url" placeholder="例：https://example.com/">
+            <p class="field-error" id="err-url" hidden></p>
+          </div>
+
+          <!-- 画像添付（任意） -->
+          <div class="form-field">
+            <label for="f-image">画像添付 <span class="optional-mark">任意</span></label>
+            <input type="file" id="f-image" name="image" accept="image/png, image/jpeg, image/webp">
+            <p class="field-hint">5MBまでの画像（JPEG / PNG / WebP）。現在この項目は送信されません。画像は参考URLでの共有がおすすめです。</p>
+            <p class="field-error" id="err-image" hidden></p>
+          </div>
+
+          <!-- 情報を確認した日（任意） -->
+          <div class="form-field">
+            <label for="f-date">情報を確認した日 <span class="optional-mark">任意</span></label>
+            <input type="date" id="f-date" name="confirmedDate">
+          </div>
+
+          <!-- ハニーポット（スパム対策のダミー項目・人間には見えない） -->
+          <div class="hp-field" aria-hidden="true">
+            <label for="f-website">ウェブサイト（この欄は入力しないでください）</label>
+            <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+
+          <!-- 利用規約への同意（必須） -->
+          <div class="form-field form-field-check">
+            <input type="checkbox" id="f-agree" name="agree" required>
+            <label for="f-agree">
+              投稿内容が管理者の確認後に掲載されること、および
+              <a href="#about">利用規約・投稿ガイドライン（準備中）</a>に同意します
+              <span class="required-mark">必須</span>
+            </label>
+            <p class="field-error" id="err-agree" hidden></p>
+          </div>
+
+          <!-- エラー全体サマリー（スクリーンリーダーにも通知） -->
+          <div class="form-error-summary" id="form-error-summary" role="alert" hidden></div>
+
+          <button type="submit" class="btn btn-primary btn-submit" id="submit-btn">入力内容を確認する</button>
+        </form>
+
+        <!-- 送信前の確認表示 -->
+        <div class="form-confirm" id="form-confirm" hidden>
+          <h3>入力内容の確認</h3>
+          <dl id="confirm-list"><!-- js/main.js が生成 --></dl>
+          <p class="field-error" id="confirm-error" role="alert" hidden></p>
+          <div class="confirm-actions">
+            <button type="button" class="btn btn-secondary" id="confirm-back">修正する</button>
+            <button type="button" class="btn btn-primary" id="confirm-send">この内容で送信する</button>
+          </div>
+        </div>
+
+        <!-- 送信成功メッセージ（本文はモードに応じて js/main.js が書き換える） -->
+        <div class="form-success" id="form-success" role="status" hidden>
+          <p class="form-success-icon" aria-hidden="true">🛫</p>
+          <p class="form-success-title">投稿ありがとうございます。</p>
+          <p id="success-note">これはデモ版のため、入力内容は実際には送信されません。</p>
+          <button type="button" class="btn btn-secondary" id="success-reset">新しく投稿する</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         7. サイトについて・免責事項
+    ============================================================ -->
+    <section class="section section-about" id="about" aria-labelledby="about-title">
+      <div class="section-inner section-inner-narrow">
+        <h2 class="section-title" id="about-title"><span class="section-icon" aria-hidden="true">ℹ️</span>このサイトについて</h2>
+
+        <div class="about-body">
+          <p>
+            「富山きてきて空港」は、富山空港を応援する個人・有志による非公式サイトです。
+            富山空港、航空会社、行政機関、交通事業者などとは関係ありません。
+          </p>
+          <p>
+            掲載情報については正確性の確保に努めますが、内容の完全性、正確性、最新性を保証するものではありません。
+            フライト時刻、運航状況、交通情報、料金、営業時間などは、必ず各事業者の公式サイトでご確認ください。
+          </p>
+          <p>
+            利用者から投稿された情報は、管理者が内容を確認したうえで掲載しています。
+            投稿がそのまま自動的に公開されることはありません。
+          </p>
+        </div>
+
+        <ul class="about-links">
+          <li><a href="#about" aria-disabled="true" class="link-pending">プライバシーポリシー<span class="pending-tag">準備中</span></a></li>
+          <li><a href="#about" aria-disabled="true" class="link-pending">投稿ガイドライン<span class="pending-tag">準備中</span></a></li>
+          <li><a href="#about" aria-disabled="true" class="link-pending">お問い合わせ<span class="pending-tag">準備中</span></a></li>
+          <li><a href="#about" aria-disabled="true" class="link-pending">公式情報リンク集<span class="pending-tag">準備中</span></a></li>
+        </ul>
+      </div>
+    </section>
+    <!-- ============================================================
+         8. 空港の諸元・就航機材
+    ============================================================ -->
+    <section class="section section-specs" id="specs" aria-labelledby="specs-title">
+      <div class="section-inner">
+        <h2 class="section-title" id="specs-title"><span class="section-icon" aria-hidden="true">🛬</span>富山空港のデータ</h2>
+        <p class="section-lead">
+          富山空港の基本情報です。一般に公開されている情報を基にした<strong>参考値</strong>で、
+          最新・正確な情報は公式サイトをご確認ください。
+        </p>
+
+        <!-- 諸元（静的コンテンツ） -->
+        <h3 class="specs-subtitle">諸元（参考値）</h3>
+        <dl class="spec-list">
+          <div class="spec-item"><dt>名称</dt><dd>富山空港（愛称：富山高山すし空港）</dd></div>
+          <div class="spec-item"><dt>空港コード</dt><dd>IATA：TOY ／ ICAO：RJNT</dd></div>
+          <div class="spec-item"><dt>所在地</dt><dd>富山県富山市秋ケ島（富山市街から南へ約7km）</dd></div>
+          <div class="spec-item"><dt>種別</dt><dd>地方管理空港（設置・管理：富山県）</dd></div>
+          <div class="spec-item"><dt>滑走路</dt><dd>2,000m × 45m（方位 02／20）</dd></div>
+          <div class="spec-item"><dt>標高</dt><dd>約29m</dd></div>
+          <div class="spec-item"><dt>開港</dt><dd>1963年</dd></div>
+          <div class="spec-item"><dt>特徴</dt><dd>日本で唯一、河川敷（神通川）に滑走路がある空港として知られています</dd></div>
+        </dl>
+
+        <!-- 就航機材（イラストは自作のイメージ画像・実際の塗装やロゴは使用していません） -->
+        <h3 class="specs-subtitle">富山空港で見られる主な機材（例）</h3>
+        <p class="sample-tag">※ イラストはイメージです。就航機材は路線・時期により変わります</p>
+
+        <div class="aircraft-grid">
+          <article class="aircraft-card">
+            <div class="aircraft-art" aria-hidden="true">
+              <!-- 小型ジェット旅客機のイメージイラスト（自作SVG） -->
+              <svg viewBox="0 0 420 150" role="presentation" focusable="false">
+                <ellipse cx="210" cy="136" rx="150" ry="7" fill="#0f3a5f" opacity="0.08"/>
+                <path d="M62 68 L34 22 L58 22 L92 66 Z" fill="#2b8fd6"/>
+                <path d="M52 76 L18 68 L48 62 Z" fill="#5db1e4"/>
+                <rect x="42" y="60" width="310" height="28" rx="14" fill="#f4f9fd" stroke="#c3d9e8" stroke-width="2"/>
+                <path d="M330 60 q22 3 22 14 q0 11 -22 14 Z" fill="#dceefb"/>
+                <rect x="42" y="78" width="308" height="7" rx="3.5" fill="#2b8fd6"/>
+                <path d="M322 64 l16 4 l-2 6 l-16 -2 Z" fill="#0f3a5f"/>
+                <g fill="#0f3a5f"><circle cx="110" cy="70" r="2.4"/><circle cx="128" cy="70" r="2.4"/><circle cx="146" cy="70" r="2.4"/><circle cx="164" cy="70" r="2.4"/><circle cx="182" cy="70" r="2.4"/><circle cx="200" cy="70" r="2.4"/><circle cx="218" cy="70" r="2.4"/><circle cx="236" cy="70" r="2.4"/><circle cx="254" cy="70" r="2.4"/><circle cx="272" cy="70" r="2.4"/><circle cx="290" cy="70" r="2.4"/></g>
+                <path d="M212 88 L154 122 L192 122 L248 88 Z" fill="#5b7d99"/>
+                <path d="M154 122 l-6 -10 l10 0 Z" fill="#38566e"/>
+                <ellipse cx="206" cy="104" rx="22" ry="11" fill="#38566e"/>
+                <circle cx="188" cy="104" r="8" fill="#12283a"/>
+              </svg>
+            </div>
+            <div class="aircraft-body">
+              <h4 class="aircraft-name">小型ジェット旅客機（737・A320クラス）</h4>
+              <p class="aircraft-desc">
+                東京（羽田）線などの国内定期便で広く使われるクラスの機材です。座席数はおおよそ160〜180席前後。
+              </p>
+            </div>
+          </article>
+
+          <article class="aircraft-card">
+            <div class="aircraft-art" aria-hidden="true">
+              <!-- 中型ジェット旅客機のイメージイラスト（自作SVG） -->
+              <svg viewBox="0 0 420 150" role="presentation" focusable="false">
+                <ellipse cx="210" cy="140" rx="165" ry="7" fill="#0f3a5f" opacity="0.08"/>
+                <path d="M56 66 L26 14 L52 14 L90 64 Z" fill="#3a9e6e"/>
+                <path d="M46 76 L10 68 L42 60 Z" fill="#6fc39a"/>
+                <rect x="36" y="58" width="330" height="30" rx="15" fill="#f4f9fd" stroke="#c3d9e8" stroke-width="2"/>
+                <path d="M344 58 q24 4 24 15 q0 11 -24 15 Z" fill="#dceefb"/>
+                <rect x="36" y="77" width="330" height="7" rx="3.5" fill="#3a9e6e"/>
+                <path d="M336 62 l17 4 l-2 7 l-17 -3 Z" fill="#0f3a5f"/>
+                <g fill="#0f3a5f"><circle cx="100" cy="68" r="2.4"/><circle cx="117" cy="68" r="2.4"/><circle cx="134" cy="68" r="2.4"/><circle cx="151" cy="68" r="2.4"/><circle cx="168" cy="68" r="2.4"/><circle cx="185" cy="68" r="2.4"/><circle cx="202" cy="68" r="2.4"/><circle cx="219" cy="68" r="2.4"/><circle cx="236" cy="68" r="2.4"/><circle cx="253" cy="68" r="2.4"/><circle cx="270" cy="68" r="2.4"/><circle cx="287" cy="68" r="2.4"/><circle cx="304" cy="68" r="2.4"/></g>
+                <path d="M210 88 L144 128 L186 128 L250 88 Z" fill="#5b7d99"/>
+                <ellipse cx="198" cy="108" rx="25" ry="12" fill="#38566e"/>
+                <circle cx="177" cy="108" r="9" fill="#12283a"/>
+                <ellipse cx="258" cy="96" rx="18" ry="9" fill="#38566e"/>
+                <circle cx="243" cy="96" r="7" fill="#12283a"/>
+              </svg>
+            </div>
+            <div class="aircraft-body">
+              <h4 class="aircraft-name">中型ジェット旅客機（A321・767クラス）</h4>
+              <p class="aircraft-desc">
+                国際線やチャーター便、多客期の増便などで使われることがあるクラスの機材です。
+              </p>
+            </div>
+          </article>
+
+          <article class="aircraft-card">
+            <div class="aircraft-art" aria-hidden="true">
+              <!-- 小型プロペラ機のイメージイラスト（自作SVG） -->
+              <svg viewBox="0 0 420 150" role="presentation" focusable="false">
+                <ellipse cx="210" cy="132" rx="120" ry="6" fill="#0f3a5f" opacity="0.08"/>
+                <path d="M118 62 L98 30 L116 30 L140 60 Z" fill="#ef7f1a"/>
+                <path d="M112 70 L86 64 L110 58 Z" fill="#f5a75c"/>
+                <rect x="104" y="56" width="200" height="24" rx="12" fill="#f4f9fd" stroke="#c3d9e8" stroke-width="2"/>
+                <rect x="104" y="72" width="200" height="6" rx="3" fill="#ef7f1a"/>
+                <rect x="168" y="48" width="90" height="10" rx="5" fill="#5b7d99"/>
+                <path d="M282 60 l14 4 l-2 6 l-14 -3 Z" fill="#0f3a5f"/>
+                <g fill="#0f3a5f"><circle cx="160" cy="66" r="2.2"/><circle cx="176" cy="66" r="2.2"/><circle cx="192" cy="66" r="2.2"/><circle cx="208" cy="66" r="2.2"/><circle cx="224" cy="66" r="2.2"/></g>
+                <circle cx="306" cy="68" r="5" fill="#12283a"/>
+                <rect x="308" y="38" width="5" height="60" rx="2.5" fill="#38566e" opacity="0.85"/>
+                <line x1="150" y1="80" x2="140" y2="104" stroke="#38566e" stroke-width="4"/>
+                <line x1="230" y1="80" x2="240" y2="104" stroke="#38566e" stroke-width="4"/>
+                <circle cx="138" cy="108" r="7" fill="#12283a"/>
+                <circle cx="242" cy="108" r="7" fill="#12283a"/>
+              </svg>
+            </div>
+            <div class="aircraft-body">
+              <h4 class="aircraft-name">小型プロペラ機・ビジネス機</h4>
+              <p class="aircraft-desc">
+                訓練・遊覧・報道・プライベート機など、定期便以外の小型機が発着する姿も見られます。
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <p class="specs-disclaimer">
+          就航路線・使用機材・運航ダイヤは季節や年度によって変わります。搭乗を予定される際は、
+          各航空会社および空港の公式サイトで最新情報をご確認ください。
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       9. フッター
+  ============================================================ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-logo"><span aria-hidden="true">✈</span> 富山きてきて空港</p>
+      <p class="footer-tagline">富山空港をみんなで応援する非公式ファンサイト</p>
+      <p class="footer-unofficial">本サイトは非公式サイトです。公式情報は各事業者のサイトをご確認ください。</p>
+      <p class="footer-copy"><small>&copy; 富山きてきて空港</small></p>
+    </div>
+    <a class="back-to-top" href="#top" aria-label="ページ上部へ戻る">▲<span class="visually-hidden">ページ上部へ戻る</span></a>
+  </footer>
+
+  <!-- Leaflet（読み込み失敗時はJS側で静的地図にフォールバック） → データ → ロジック の順で読み込み -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
