@@ -62,7 +62,7 @@
     <div class="header-inner">
       <a class="site-logo" href="#top">
         <span class="logo-mark" aria-hidden="true">✈</span>
-        富山きてきて空港
+        <span class="logo-copy">富山きてきて空港<small>TOYAMA AIRPORT FAN GUIDE</small></span>
       </a>
 
       <!-- ハンバーガーボタン（モバイルのみ表示） -->
@@ -89,64 +89,67 @@
          2. メインビジュアル
     ============================================================ -->
     <section class="hero" aria-labelledby="hero-title">
-      <!-- 立山連峰と飛行機をイメージした装飾（インラインSVG・画像不要） -->
+      <!-- 夕暮れの滑走路をイメージした装飾（インラインSVG・画像不要） -->
       <div class="hero-bg" aria-hidden="true">
-        <svg class="hero-sky" viewBox="0 0 1440 560" preserveAspectRatio="xMidYMax slice" role="presentation" focusable="false">
-          <!-- 空のグラデーション -->
+        <svg class="hero-sky" viewBox="0 0 1440 680" preserveAspectRatio="xMidYMax slice" role="presentation" focusable="false">
           <defs>
             <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#8ecdf2"/>
-              <stop offset="70%" stop-color="#d9eefb"/>
-              <stop offset="100%" stop-color="#f3fafe"/>
+              <stop offset="0%" stop-color="#071a2c"/>
+              <stop offset="58%" stop-color="#123958"/>
+              <stop offset="100%" stop-color="#d77842"/>
             </linearGradient>
-            <linearGradient id="mtn-back" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#b7d6ea"/>
-              <stop offset="100%" stop-color="#d5e8f4"/>
+            <linearGradient id="runway" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#334351"/>
+              <stop offset="100%" stop-color="#0a151e"/>
             </linearGradient>
-            <linearGradient id="mtn-front" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#ffffff"/>
-              <stop offset="100%" stop-color="#c9e2f2"/>
+            <linearGradient id="hero-glow" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#55c8ef" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#55c8ef" stop-opacity=".6"/>
+              <stop offset="100%" stop-color="#55c8ef" stop-opacity="0"/>
             </linearGradient>
           </defs>
-          <rect width="1440" height="560" fill="url(#sky)"/>
-          <!-- 雲 -->
-          <ellipse cx="240" cy="110" rx="110" ry="26" fill="#ffffff" opacity="0.85"/>
-          <ellipse cx="320" cy="130" rx="80" ry="20" fill="#ffffff" opacity="0.7"/>
-          <ellipse cx="1150" cy="90" rx="130" ry="28" fill="#ffffff" opacity="0.8"/>
-          <ellipse cx="1050" cy="115" rx="90" ry="20" fill="#ffffff" opacity="0.6"/>
-          <!-- 立山連峰（奥） -->
-          <path d="M0 430 L140 300 L260 400 L400 260 L540 390 L680 280 L820 400 L960 250 L1100 380 L1240 290 L1360 380 L1440 330 L1440 560 L0 560 Z" fill="url(#mtn-back)"/>
-          <!-- 立山連峰（手前・冠雪） -->
-          <path d="M0 480 L180 350 L320 450 L500 320 L660 450 L860 330 L1040 460 L1220 360 L1440 470 L1440 560 L0 560 Z" fill="url(#mtn-front)"/>
-          <!-- 富山湾を思わせる帯 -->
-          <rect y="520" width="1440" height="40" fill="#0f3a5f" opacity="0.12"/>
-          <!-- 飛行機と航跡 -->
+          <rect width="1440" height="680" fill="url(#sky)"/>
+          <circle cx="1120" cy="245" r="92" fill="#79cce8" opacity=".65"/>
+          <rect y="332" width="1440" height="4" fill="url(#hero-glow)"/>
+          <!-- 遠景の山並み -->
+          <path d="M0 380 L145 305 L280 376 L430 278 L590 380 L750 315 L915 385 L1080 292 L1240 368 L1370 318 L1440 360 L1440 470 L0 470 Z" fill="#0b2234" opacity=".92"/>
+          <!-- 滑走路と誘導灯 -->
+          <path d="M510 680 L670 368 L770 368 L970 680 Z" fill="url(#runway)"/>
+          <path d="M719 390 L725 390 L732 430 L712 430 Z M704 458 L739 458 L754 515 L686 515 Z M668 555 L773 555 L806 680 L620 680 Z" fill="#f5f1d7" opacity=".88"/>
+          <g fill="#159bc8"><circle cx="498" cy="672" r="5"/><circle cx="543" cy="583" r="4"/><circle cx="579" cy="515" r="3.5"/><circle cx="609" cy="457" r="3"/><circle cx="634" cy="410" r="2.5"/><circle cx="982" cy="672" r="5"/><circle cx="927" cy="583" r="4"/><circle cx="883" cy="515" r="3.5"/><circle cx="847" cy="457" r="3"/><circle cx="817" cy="410" r="2.5"/></g>
+          <g fill="#52d7ff"><circle cx="416" cy="672" r="4"/><circle cx="490" cy="560" r="3"/><circle cx="548" cy="475" r="2.5"/><circle cx="1048" cy="672" r="4"/><circle cx="970" cy="560" r="3"/><circle cx="908" cy="475" r="2.5"/></g>
+          <!-- 上昇する飛行機と航跡 -->
           <g class="hero-plane">
-            <path d="M980 150 q120 -18 240 -8" stroke="#ffffff" stroke-width="5" stroke-dasharray="2 14" stroke-linecap="round" fill="none" opacity="0.9"/>
-            <g transform="translate(1225 128) rotate(6)">
-              <path d="M0 12 L46 6 L60 10 L46 14 Z" fill="#2b8fd6"/>
-              <path d="M20 10 L10 -6 L16 -6 L30 9 Z" fill="#5db1e4"/>
-              <path d="M20 12 L12 26 L18 26 L30 12 Z" fill="#5db1e4"/>
-              <path d="M46 6 L52 0 L56 1 L52 8 Z" fill="#2b8fd6"/>
+            <path d="M970 140 Q1100 117 1242 75" stroke="#d8f3ff" stroke-width="3" stroke-dasharray="3 12" stroke-linecap="round" fill="none" opacity=".65"/>
+            <g transform="translate(1230 52) rotate(-15)">
+              <path d="M0 18 L58 8 L78 13 L58 19 Z" fill="#f7fbff"/>
+              <path d="M29 13 L15 -10 L24 -10 L44 11 Z" fill="#d6e7f0"/>
+              <path d="M28 16 L18 35 L27 35 L44 15 Z" fill="#d6e7f0"/>
+              <path d="M59 8 L67 -1 L73 0 L68 11 Z" fill="#159bc8"/>
             </g>
           </g>
         </svg>
       </div>
 
       <div class="hero-content">
-        <!-- 非公式サイトであることをファーストビューで明示 -->
-        <p class="unofficial-badge">⚑ 当サイトは富山空港を応援する<strong>非公式</strong>の私設ファンサイトです</p>
+        <div class="hero-copy">
+          <p class="unofficial-badge">UNOFFICIAL AIRPORT GUIDE</p>
+          <p class="hero-kicker">WELCOME TO TOYAMA <span>TOY / RJNT</span></p>
+          <h1 id="hero-title" class="hero-title">富山へ行くなら、<wbr>空からも。</h1>
+          <p class="hero-sub">空の旅を、もっと身近に。富山空港の魅力と便利を一つに。</p>
+          <p class="hero-note">
+            フライトマップ、移動時間の比較、利用者から届いた現地情報をまとめた、富山空港の非公式ファンガイドです。
+          </p>
 
-        <h1 id="hero-title" class="hero-title">富山へ行くなら、<wbr>空からも。</h1>
-        <p class="hero-sub">富山空港を、もっと身近に。もっと便利に。</p>
-        <p class="hero-note">
-          「富山きてきて空港」は、富山空港を応援する非公式の私設ファンサイトです。
-          フライト情報や移動時間、利用者から寄せられた情報を紹介します。
-        </p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="#flight-map"><span aria-hidden="true">✈</span> 現在のフライトを見る</a>
+            <a class="btn btn-secondary" href="#posts">空港情報を見る <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
 
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="#flight-map">現在のフライトを見る</a>
-          <a class="btn btn-secondary" href="#posts">みんなの投稿を見る</a>
+        <div class="hero-unofficial">
+          <span aria-hidden="true">ⓘ</span>
+          当サイトは富山空港を応援する<strong>非公式</strong>の私設ファンサイトです
         </div>
       </div>
     </section>
@@ -206,7 +209,7 @@
 
         <!-- 運賃比較（東京⇔富山・買い方別） -->
         <h3 class="compare-subtitle">運賃でくらべる</h3>
-        <p class="sample-tag">※ 金額はサンプル（目安）です</p>
+        <p class="sample-tag">※ 2026年7月時点／大人1名・普通席・片道の目安です</p>
 
         <!-- PC：運賃表（JSで生成） -->
         <div class="compare-table-wrap">
@@ -228,8 +231,12 @@
         <div class="compare-cards" id="fare-cards"><!-- js/main.js がデータから生成 --></div>
 
         <p class="compare-disclaimer">
-          掲載している金額は比較の感覚をつかむためのサンプルです。運賃・料金は季節、空席状況、購入タイミング、
-          キャンペーンの有無によって大きく変動します。実際の金額は必ず各交通機関・販売サイトの公式情報をご確認ください。
+          掲載額は通常期・対象期間の目安です。繁忙期、空席状況、購入タイミング、対象列車・便によって変動します。
+          参照：<a href="https://www.eki-net.com/top/tokudane/" target="_blank" rel="noopener noreferrer">えきねっと割引商品</a>、
+          <a href="https://www.ana.co.jp/ja/jp/guide/plan/fare/domestic/applicable-list/" target="_blank" rel="noopener noreferrer">ANA公式運賃表</a>、
+          <a href="https://www.toyama-airport.co.jp/access/carpark" target="_blank" rel="noopener noreferrer">富山空港駐車場</a>、
+          <a href="https://www.chitetsu.co.jp/?page_id=733" target="_blank" rel="noopener noreferrer">富山空港連絡バス</a>。
+          実際の購入前には各公式サイトで最新の金額と条件をご確認ください。
         </p>
       </div>
     </section>

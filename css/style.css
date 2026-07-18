@@ -2,7 +2,7 @@
    とやまきてきて空港：スタイルシート
    カラーテーマ：
    - 青空ブルー / 立山ホワイト / 富山湾ディープブルー / 自然グリーン
-   - CTAは温かみのあるオレンジ
+   - CTAと案内アクセントは空色ブルー
 ============================================================ */
 
 :root {
@@ -12,8 +12,8 @@
   --deep: #0f3a5f;         /* 富山湾ディープブルー（見出し・フッター） */
   --green: #3a9e6e;        /* 自然グリーン（アクセント） */
   --green-light: #e7f5ee;
-  --accent: #ef7f1a;       /* CTAオレンジ */
-  --accent-dark: #d96f0e;
+  --accent: #159bc8;       /* 空色ブルー */
+  --accent-dark: #087da8;
   --white: #ffffff;
   --text: #23313d;         /* 本文（コントラスト確保） */
   --text-sub: #5a6b78;
@@ -774,4 +774,242 @@ a:hover { color: var(--deep); }
   .aircraft-grid { grid-template-columns: 1fr; }
 
   .back-to-top { right: 16px; }
+}
+
+/* ============================================================
+   AIRPORT TERMINAL THEME
+   案内サイン、出発便ボード、滑走路の光をモチーフにした外観
+============================================================ */
+:root {
+  --sky: #087da8;
+  --sky-light: #edf4f6;
+  --deep: #082236;
+  --green: #16835d;
+  --green-light: #e6f2ed;
+  --accent: #159bc8;
+  --accent-dark: #087da8;
+  --button-sky: #159bc8;
+  --button-sky-dark: #087da8;
+  --text: #142633;
+  --text-sub: #526671;
+  --border: #cfdbdf;
+  --radius: 0;
+  --shadow: 0 14px 36px rgba(8, 34, 54, 0.1);
+}
+
+body {
+  background-color: #f6f8f8;
+  background-image: linear-gradient(rgba(8, 34, 54, .025) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(8, 34, 54, .025) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* 空港の案内サインを思わせるヘッダー */
+.site-header {
+  background: rgba(7, 28, 44, .97);
+  border-bottom: 3px solid var(--accent);
+  backdrop-filter: blur(12px);
+}
+.site-header.is-scrolled { box-shadow: 0 8px 24px rgba(3, 16, 26, .25); }
+.site-logo { color: var(--white); gap: 10px; }
+.site-logo:hover { color: var(--white); }
+.logo-copy { display: flex; flex-direction: column; line-height: 1.15; }
+.logo-copy small {
+  margin-top: 3px; color: #a9c4d2; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .52rem; font-weight: 500; letter-spacing: .15em;
+}
+.logo-mark {
+  width: 38px; height: 38px; border-radius: 5px;
+  background: var(--accent); color: var(--deep); font-size: 1.15rem;
+  transform: rotate(-4deg);
+}
+.global-nav a { color: #d9e7ed; border-radius: 4px; }
+.global-nav a:hover { background: rgba(255, 255, 255, .1); color: var(--white); }
+.global-nav .nav-cta,
+.global-nav .nav-cta:hover { color: var(--white); border-radius: 4px; }
+.global-nav .nav-cta { background: var(--button-sky); }
+.global-nav .nav-cta:hover { background: var(--button-sky-dark); }
+.nav-toggle-bar { background: var(--white); }
+
+/* 滑走路ヒーロー */
+.hero {
+  min-height: 720px;
+  padding: calc(var(--header-h) + 58px) 20px 36px;
+  align-items: center;
+}
+.hero::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(90deg, rgba(3, 17, 28, .77) 0%, rgba(3, 17, 28, .5) 48%, rgba(3, 17, 28, .12) 100%);
+}
+.hero-bg { background: var(--deep); }
+.hero-content {
+  display: grid; grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  padding-bottom: 0;
+}
+.hero-copy { max-width: 650px; }
+.unofficial-badge {
+  margin-bottom: 22px; padding: 5px 11px; border-radius: 3px;
+  background: var(--accent); color: var(--deep);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .72rem; font-weight: 900; letter-spacing: .13em;
+}
+.hero-kicker {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 10px;
+  color: #8ed8f2; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .82rem; font-weight: 700; letter-spacing: .14em;
+}
+.hero-kicker::before { content: ""; width: 34px; height: 2px; background: var(--accent); }
+.hero-kicker span {
+  padding: 2px 7px; border: 1px solid rgba(142, 216, 242, .45); border-radius: 3px;
+  color: #d8f4fe; letter-spacing: .08em;
+}
+.hero-title {
+  max-width: 650px; color: var(--white); line-height: 1.2;
+  font-size: clamp(2.6rem, 5.6vw, 4.8rem); letter-spacing: .035em;
+  text-shadow: 0 3px 25px rgba(0, 0, 0, .35);
+}
+.hero-title::after {
+  content: ""; display: block; width: 88px; height: 5px; margin-top: 20px;
+  background: var(--accent);
+}
+.hero-sub { margin-top: 20px; color: #e4f2f7; text-shadow: none; }
+.hero-note {
+  max-width: 600px; margin-top: 14px; padding: 0; border-radius: 0;
+  background: transparent; color: #bfd0d8;
+}
+.hero-cta { margin-top: 30px; }
+.hero .btn { border-radius: 5px; }
+.hero .btn-primary { color: var(--white); box-shadow: 0 8px 20px rgba(21, 155, 200, .3); }
+.hero .btn-secondary { color: var(--white); border-color: rgba(255, 255, 255, .65); background: rgba(5, 25, 40, .42); }
+.hero .btn-secondary:hover { color: var(--white); background: rgba(255, 255, 255, .12); }
+.hero-unofficial {
+  grid-column: 1 / -1; display: flex; align-items: center; gap: 8px;
+  margin-top: 20px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, .18);
+  color: #aec1ca; font-size: .78rem;
+}
+.hero-unofficial strong { color: var(--accent); }
+
+/* セクションを搭乗エリアのパネルとして統一 */
+.section { position: relative; padding-top: 96px; padding-bottom: 96px; }
+.section-title { align-items: stretch; gap: 14px; letter-spacing: .01em; }
+.section-title::after {
+  content: ""; align-self: center; flex: 1; min-width: 60px; height: 1px;
+  margin-left: 10px; background: var(--border);
+}
+.section-icon {
+  width: 48px; height: 48px; border-radius: 4px;
+  background: var(--deep); color: var(--white);
+  box-shadow: inset 0 -4px 0 var(--accent);
+}
+.section-lead { border-left: 3px solid var(--accent); padding-left: 18px; }
+.section-compare { background: #f6f8f8; }
+.section-map { background: #e6eef1; }
+.section-posts { background: #f6f8f8; }
+.section-form { background: #e9eff1; }
+.section-about { background: #dce8e6; }
+.compare-subtitle, .specs-subtitle { border-left-color: var(--accent); }
+.sample-tag { border-radius: 3px; }
+
+/* 案内板・搭乗券らしいUI */
+.compare-tabs { border-radius: 5px; background: #dfe7ea; }
+.compare-tab { border-radius: 3px; }
+.compare-table-wrap, .map-wrap, .gform-wrap { border-radius: 6px; border: 1px solid var(--border); }
+.compare-table thead th { background: var(--deep); border-right: 1px solid #29485d; }
+.compare-card, .post-card, .aircraft-card {
+  border-radius: 7px; border: 1px solid var(--border); box-shadow: 0 10px 28px rgba(8, 34, 54, .08);
+}
+.compare-card { position: relative; overflow: hidden; }
+.compare-card::after {
+  content: ""; position: absolute; top: 12px; right: -7px; width: 14px; height: 14px;
+  border-radius: 50%; background: #f6f8f8; border: 1px solid var(--border);
+}
+.filter-btn, .helpful-btn { border-radius: 4px; }
+.post-image-placeholder { background: linear-gradient(145deg, #092438, #17617b); color: var(--white); }
+.sample-badge, .category-badge, .adv-badge { border-radius: 3px; }
+.map-badge { border-radius: 3px; background: var(--accent); color: var(--deep); }
+.spec-item { border-radius: 5px; border-left: 4px solid var(--accent); }
+.spec-item dt { color: var(--deep); }
+.aircraft-art { background: linear-gradient(180deg, #d7e6eb 0%, #f4f7f8 70%, #c5d2d6 71%, #edf1f2 100%); }
+.about-links a { border-radius: 5px; border-left: 4px solid var(--accent); }
+
+.btn { border-radius: 5px; }
+.btn-primary { background: var(--button-sky); color: var(--white); box-shadow: 0 5px 16px rgba(21, 155, 200, .3); }
+.btn-primary:hover { background: var(--button-sky-dark); color: var(--white); }
+.site-footer {
+  padding-top: 70px; background-color: #061927;
+  background-image: linear-gradient(90deg, transparent 49.8%, rgba(21, 155, 200, .22) 50%, transparent 50.2%);
+}
+.site-footer::before {
+  content: "02  ·  TOY  ·  20"; position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+  color: #77909d; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .68rem; letter-spacing: .28em; white-space: nowrap;
+}
+.back-to-top { border-radius: 5px; background: var(--button-sky); color: var(--white); box-shadow: 0 4px 14px rgba(21, 155, 200, .32); }
+.back-to-top:hover { background: var(--button-sky-dark); }
+
+/* 案内板らしい直線的なエッジ */
+.btn,
+.site-logo,
+.logo-mark,
+.global-nav a,
+.global-nav .nav-cta,
+.unofficial-badge,
+.hero-kicker span,
+.section-icon,
+.sample-tag,
+.compare-tabs,
+.compare-tab,
+.compare-table-wrap,
+.map-wrap,
+.map-badge,
+.compare-card,
+.compare-card-point,
+.compare-disclaimer,
+.post-card,
+.sample-badge,
+.category-badge,
+.adv-badge,
+.filter-btn,
+.helpful-btn,
+.gform-wrap,
+.post-form,
+.form-confirm,
+.form-success,
+.form-field input,
+.form-field select,
+.form-field textarea,
+.required-mark,
+.optional-mark,
+.form-error-summary,
+.aircraft-card,
+.spec-item,
+.specs-disclaimer,
+.posts-empty,
+.about-links a,
+.pending-tag,
+.footer-unofficial,
+.back-to-top {
+  border-radius: 0;
+}
+.compare-card::after { display: none; }
+
+@media (max-width: 1023px) {
+  .hero-title { font-size: clamp(2.55rem, 6.4vw, 4rem); }
+}
+
+@media (max-width: 767px) {
+  .global-nav { background: var(--deep); border-bottom: 3px solid var(--accent); }
+  .global-nav a { color: var(--white); }
+  .hero { min-height: 0; padding: calc(var(--header-h) + 42px) 16px 42px; }
+  .hero::after { background: rgba(3, 17, 28, .69); }
+  .hero-content { grid-template-columns: 1fr; gap: 30px; }
+  .hero-title { font-size: clamp(2.35rem, 12vw, 3.5rem); }
+  .hero-title::after { width: 64px; height: 4px; margin-top: 16px; }
+  .hero-kicker { flex-wrap: wrap; font-size: .69rem; }
+  .hero-note { font-size: .88rem; }
+  .hero-unofficial { margin-top: 0; }
+  .section { padding-top: 70px; padding-bottom: 70px; }
+  .section-title::after { display: none; }
+  .section-lead { padding-left: 14px; }
 }
