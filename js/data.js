@@ -366,7 +366,7 @@ function ROUTES_TO_TOKYO() {
   },
   {
     spot: "横浜アリーナ（新横浜）",
-    trainRoute: "富山駅 → 東京駅 → 東海道新幹線・横浜線 新横浜駅",
+    trainRoute: "富山駅 → 北陸新幹線 → 東京駅 → 東海道線 → 横浜駅 → 横浜線 新横浜駅",
     trainTime: "約2時間50分〜3時間",
     planeRoute: "富山空港 →✈ 羽田空港 → 直行バス 新横浜",
     planeTime: "約2時間50分〜3時間10分",
