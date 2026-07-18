@@ -122,8 +122,8 @@ const POSTS = [
 ];
 
 /**
- * 移動時間比較データ（サンプル・目安）
- * 所要時間は乗り換え・待ち時間を含むおおよその概算です。正確な時刻表に基づくものではありません。
+ * 移動時間比較データ（2026年7月時点の公式時刻表・交通案内を基にした目安）
+ * 飛行機は出発空港での手続き45分、到着後の移動15分を加算。鉄道は標準的な乗換時間を加算しています。
  * advantage: "plane"（飛行機が便利） / "train"（新幹線が便利） / "even"（どちらも便利）
  * タブごとに routes を持ちます（東京→富山 / 富山→東京）。
  */
@@ -201,9 +201,9 @@ function ROUTES_TO_TOYAMA() {
     trainRoute: "東京駅 → 北陸新幹線 → 富山駅",
     trainTime: "約2時間10分",
     planeRoute: "羽田空港 →✈ 富山空港 → 連絡バス",
-    planeTime: "約2時間30分",
-    advantage: "even",
-    point: "駅直行なら新幹線が有利。ただし羽田近くにお住まいなら飛行機も十分候補に。"
+    planeTime: "約2時間25分",
+    advantage: "train",
+    point: "東京駅から富山駅へ直行するなら新幹線が約15分短め。羽田への近さも含めて選びましょう。"
   },
   {
     spot: "富山城址公園",
@@ -211,80 +211,80 @@ function ROUTES_TO_TOYAMA() {
     trainTime: "約2時間25分",
     planeRoute: "羽田空港 →✈ 富山空港 → バスで市内へ",
     planeTime: "約2時間40分",
-    advantage: "even",
-    point: "富山空港は市街地に近く、着陸後すぐ市内観光を始められるのが魅力。"
+    advantage: "train",
+    point: "富山駅経由では新幹線がやや短め。空港から市街地まではバスで約25分です。"
   },
   {
     spot: "富岩運河環水公園",
     trainRoute: "東京駅 → 富山駅 → 徒歩約10分",
-    trainTime: "約2時間25分",
+    trainTime: "約2時間20分",
     planeRoute: "羽田空港 →✈ 富山空港 → バス → 富山駅 → 徒歩",
-    planeTime: "約2時間45分",
+    planeTime: "約2時間35分",
     advantage: "train",
     point: "富山駅から歩けるスポットは新幹線が便利。カフェからの運河の眺めが人気。"
   },
   {
     spot: "立山駅（立山黒部アルペンルート起点）",
     trainRoute: "東京駅 → 富山駅 → 富山地方鉄道 → 立山駅",
-    trainTime: "約3時間30分",
+    trainTime: "約3時間25〜40分",
     planeRoute: "羽田空港 →✈ 富山空港 → レンタカー",
-    planeTime: "約3時間15分",
-    advantage: "even",
-    point: "電車の乗り継ぎ次第では飛行機＋レンタカーが小回りよく動けることも。"
+    planeTime: "約2時間50分",
+    advantage: "plane",
+    point: "空港から立山駅は車で約50分。鉄道は電鉄富山での乗り換え時間により幅があります。"
   },
   {
     spot: "宇奈月温泉",
     trainRoute: "東京駅 → 黒部宇奈月温泉駅 → 富山地方鉄道",
-    trainTime: "約2時間50分",
+    trainTime: "約2時間55分〜3時間15分",
     planeRoute: "羽田空港 →✈ 富山空港 → レンタカー",
-    planeTime: "約3時間40分",
+    planeTime: "約3時間20分",
     advantage: "train",
-    point: "新幹線駅から乗り換え1回。県東部の温泉は新幹線ルートがスムーズ。"
+    point: "黒部宇奈月温泉駅からの接続が合えば新幹線が有利。空港から車では約1時間20分です。"
   },
   {
     spot: "高岡駅（高岡大仏・山町筋）",
     trainRoute: "東京駅 → 新高岡駅 → 城端線ほか",
-    trainTime: "約2時間40分",
+    trainTime: "約2時間35〜50分",
     planeRoute: "羽田空港 →✈ 富山空港 → レンタカー",
-    planeTime: "約3時間",
-    advantage: "train",
-    point: "新高岡駅利用が便利。飛行機なら県西部をレンタカーで巡る拠点にも。"
+    planeTime: "約2時間50分",
+    advantage: "even",
+    point: "東京〜新高岡は最速約2時間17分。新高岡〜高岡の接続次第では差が小さくなります。"
   },
   {
     spot: "雨晴海岸",
     trainRoute: "東京駅 → 新高岡駅 → 氷見線 雨晴駅",
-    trainTime: "約3時間20分",
+    trainTime: "約3時間10〜40分",
     planeRoute: "羽田空港 →✈ 富山空港 → レンタカー",
-    planeTime: "約3時間10分",
+    planeTime: "約3時間",
     advantage: "plane",
-    point: "本数が限られる路線もあり、レンタカーなら海岸沿いを自由に移動できる。"
+    point: "氷見線の接続待ちで所要時間が変わります。レンタカーなら海岸まで動きやすい経路です。"
   },
   {
     spot: "五箇山（合掌造り集落）",
     trainRoute: "東京駅 → 新高岡駅 → 世界遺産バス",
-    trainTime: "約3時間50分",
+    trainTime: "約3時間45分〜4時間15分",
     planeRoute: "羽田空港 →✈ 富山空港 → レンタカー",
-    planeTime: "約3時間20分",
+    planeTime: "約3時間10分",
     advantage: "plane",
-    point: "山あいの集落巡りは飛行機＋レンタカーの自由度が活きるエリア。"
+    point: "空港〜相倉は車で約1時間10分。世界遺産バスは便数と接続時刻を事前に確認してください。"
   },
   {
     spot: "黒部ダム",
     trainRoute: "東京駅 → 富山駅 → アルペンルート乗り継ぎ",
-    trainTime: "約4時間30分",
-    planeRoute: "羽田空港 →✈ 富山空港 → 富山駅 → アルペンルート",
-    planeTime: "約4時間50分",
-    advantage: "train",
-    point: "どちらも乗り継ぎの旅。アルペンルートは季節運行のため事前確認を。"
+    trainTime: "約6時間〜6時間30分",
+    planeRoute: "羽田空港 →✈ 富山空港 → 車で立山駅 → アルペンルート",
+    planeTime: "約5時間15〜45分",
+    advantage: "plane",
+    point: "立山駅〜黒部ダムだけで片道約2時間30分〜3時間が目安。マイカーは立山駅より先へ入れず、冬季は閉鎖されます。"
   },
   {
     spot: "砺波チューリップ公園",
     trainRoute: "東京駅 → 新高岡駅 → 城端線 砺波駅 → 徒歩",
-    trainTime: "約3時間10分",
+    trainTime: "約3時間10〜35分",
     planeRoute: "羽田空港 →✈ 富山空港 → レンタカー約40分",
     planeTime: "約2時間50分",
     advantage: "plane",
-    point: "空港から車で一直線。春のチューリップフェアは飛行機組の穴場ルート。"
+    point: "城端線の接続で時間が変動。空港から車なら約40分を見込みます。"
   }
   ];
 }
@@ -297,18 +297,18 @@ function ROUTES_TO_TOKYO() {
     trainRoute: "富山駅 → 北陸新幹線 → 東京駅",
     trainTime: "約2時間10分",
     planeRoute: "富山空港 →✈ 羽田空港 → モノレール・京急",
-    planeTime: "約2時間45分",
+    planeTime: "約2時間35〜40分",
     advantage: "train",
     point: "都心のど真ん中へは乗り換えなしの新幹線が最短。"
   },
   {
     spot: "さいたまスーパーアリーナ",
     trainRoute: "富山駅 → 北陸新幹線 → 大宮駅 → さいたま新都心駅",
-    trainTime: "約2時間5分",
+    trainTime: "約1時間55分〜2時間5分",
     planeRoute: "富山空港 →✈ 羽田空港 → 電車・バス",
     planeTime: "約3時間20分",
     advantage: "train",
-    point: "新幹線が停まる大宮からわずか1駅。埼玉方面の遠征は新幹線が圧倒的。"
+    point: "富山〜大宮は代表列車で約1時間44分。大宮から1駅のため新幹線が明確に有利です。"
   },
   {
     spot: "東京ドーム",
@@ -322,16 +322,16 @@ function ROUTES_TO_TOKYO() {
   {
     spot: "渋谷・原宿",
     trainRoute: "富山駅 → 東京駅 → 山手線 渋谷駅",
-    trainTime: "約2時間35分",
+    trainTime: "約2時間35〜45分",
     planeRoute: "富山空港 →✈ 羽田空港 → リムジンバス・京急",
-    planeTime: "約2時間50分",
+    planeTime: "約2時間50〜55分",
     advantage: "even",
     point: "羽田から渋谷方面は直行バスもあり、荷物が多い日は飛行機も快適。"
   },
   {
     spot: "東京スカイツリー",
     trainRoute: "富山駅 → 東京駅 → 押上駅",
-    trainTime: "約2時間40分",
+    trainTime: "約2時間45〜50分",
     planeRoute: "富山空港 →✈ 羽田空港 → 京急・浅草線直通 押上駅",
     planeTime: "約2時間50分",
     advantage: "even",
@@ -340,47 +340,47 @@ function ROUTES_TO_TOKYO() {
   {
     spot: "東京ビッグサイト",
     trainRoute: "富山駅 → 東京駅 → りんかい線 国際展示場駅",
-    trainTime: "約2時間45分",
+    trainTime: "約2時間50分〜3時間",
     planeRoute: "富山空港 →✈ 羽田空港 → 直行バス・りんかい線",
-    planeTime: "約2時間35分",
+    planeTime: "約2時間30〜50分",
     advantage: "plane",
-    point: "羽田から臨海部は目と鼻の先。コミケ・展示会遠征は飛行機が便利。"
+    point: "羽田〜有明・ビッグサイト方面のバスは約20〜40分。道路状況と運行便を確認してください。"
   },
   {
     spot: "お台場（ダイバーシティほか）",
     trainRoute: "富山駅 → 東京駅 → ゆりかもめ・りんかい線",
-    trainTime: "約2時間45分",
+    trainTime: "約2時間50分〜3時間",
     planeRoute: "富山空港 →✈ 羽田空港 → 直行バス約20分",
-    planeTime: "約2時間30分",
+    planeTime: "約2時間30〜50分",
     advantage: "plane",
-    point: "羽田からお台場へはバスで一本。臨海エリアは飛行機の独壇場。"
+    point: "羽田からお台場方面は直行バスが利用可能。道路状況により所要時間が変わります。"
   },
   {
     spot: "幕張メッセ",
     trainRoute: "富山駅 → 東京駅 → 京葉線 海浜幕張駅",
-    trainTime: "約2時間50分",
+    trainTime: "約3時間〜3時間10分",
     planeRoute: "富山空港 →✈ 羽田空港 → 高速バス 海浜幕張",
-    planeTime: "約2時間50分",
+    planeTime: "約2時間50分〜3時間10分",
     advantage: "even",
     point: "羽田から海浜幕張へ直行バスあり。東京駅の京葉線ホームは遠いので注意。"
   },
   {
     spot: "横浜アリーナ（新横浜）",
     trainRoute: "富山駅 → 東京駅 → 東海道新幹線・横浜線 新横浜駅",
-    trainTime: "約2時間50分",
+    trainTime: "約2時間50分〜3時間",
     planeRoute: "富山空港 →✈ 羽田空港 → 直行バス 新横浜",
-    planeTime: "約2時間40分",
-    advantage: "plane",
-    point: "羽田から新横浜へは直行バスが便利。ライブ遠征の定番ルート。"
+    planeTime: "約2時間50分〜3時間10分",
+    advantage: "even",
+    point: "羽田〜新横浜のバスは約40〜60分。渋滞と東京駅での乗換時間により優劣が変わります。"
   },
   {
     spot: "横浜・みなとみらい",
     trainRoute: "富山駅 → 東京駅 → 東海道線 → みなとみらい線",
-    trainTime: "約2時間50分",
+    trainTime: "約2時間50分〜3時間",
     planeRoute: "富山空港 →✈ 羽田空港 → 京急 横浜駅",
-    planeTime: "約2時間35分",
-    advantage: "plane",
-    point: "羽田〜横浜は京急で約25分。横浜方面は飛行機が近道になりやすい。"
+    planeTime: "約2時間40分〜3時間",
+    advantage: "even",
+    point: "羽田から横浜は約30分、みなとみらい地区は約24〜47分が目安。目的地により差が変わります。"
   }
   ];
 }
