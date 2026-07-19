@@ -884,17 +884,22 @@ body {
   background: rgba(5, 25, 40, .35);
 }
 .hero .btn-secondary:hover { color: var(--white); background: rgba(255, 255, 255, .1); }
-.hero-unofficial {
-  display: flex; align-items: center; gap: 12px;
-  max-width: 560px; margin-top: 34px; padding-top: 15px;
-  border-top: 1px solid rgba(255, 255, 255, .18);
-  color: #9fb5bf; font-size: .78rem; line-height: 1.5;
+/* 非公式サイト告知バナー（ヘッダー直下・枠付きで強調） */
+.site-notice {
+  margin-top: var(--header-h); /* 固定ヘッダーの下に表示 */
+  padding: 12px 20px;
+  background: #fff7df;
+  border: 3px solid #e2a70f;
+  text-align: center;
+  font-size: 0.98rem; font-weight: 700; color: #5a4300;
+  line-height: 1.6;
 }
-.hero-unofficial span {
-  color: #79d7f0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: .62rem; letter-spacing: .12em;
+.site-notice strong {
+  color: #c0392b; font-size: 1.1em;
+  padding: 0 2px;
 }
-.hero-unofficial strong { color: #d8edf3; }
+/* バナーが固定ヘッダー分を確保済みのため、ヒーロー側の余白は縮める */
+.site-notice + main .hero { padding-top: 54px; }
 
 /* セクション */
 .section { position: relative; padding: 92px 28px; }
@@ -996,7 +1001,7 @@ body {
   .hero-kicker { flex-wrap: wrap; gap: 10px; margin-bottom: 20px; font-size: .62rem; }
   .hero-sub { font-size: 1rem; }
   .hero-note { font-size: .85rem; }
-  .hero-unofficial { align-items: flex-start; margin-top: 28px; font-size: .72rem; }
+  .site-notice { font-size: 0.85rem; padding: 10px 14px; }
   .section { padding: 68px 18px; }
   .section-title { align-items: flex-start; gap: 13px; font-size: 1.6rem; line-height: 1.4; }
   .section-icon { margin-top: 5px; padding-right: 11px; }
