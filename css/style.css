@@ -1058,11 +1058,13 @@ body {
 }
 
 /* β版バッジ（ヘッダーロゴ横） */
+/* サイト名とβ版バッジを同じ行に横並びで配置（.logo-copy が縦積みflexのため） */
+.logo-name { display: inline-flex; align-items: center; }
 .beta-tag {
   display: inline-block; margin-left: 8px; padding: 1px 9px;
   font-size: 0.62rem; font-weight: 700; letter-spacing: 0.05em;
   color: var(--white); background: var(--accent);
-  border-radius: 999px; vertical-align: 2px; white-space: nowrap;
+  border-radius: 999px; white-space: nowrap;
 }
 
 /* ============================================================
