@@ -1064,3 +1064,11 @@ body {
   color: var(--white); background: var(--accent);
   border-radius: 999px; vertical-align: 2px; white-space: nowrap;
 }
+
+/* ============================================================
+   協力者募集
+============================================================ */
+.section-join { background: var(--green-light); }
+.join-list { margin: 0 0 16px; padding-left: 1.5em; }
+.join-list li { margin-bottom: 6px; }
+.join-cards { margin-top: 24px; }
