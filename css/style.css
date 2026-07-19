@@ -1104,3 +1104,9 @@ body {
   color: var(--green); font-weight: 700;
 }
 .access-points strong { color: var(--deep); }
+
+/* ヒーロー背景写真（object-fitで全面カバー） */
+.hero-photo {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+}
