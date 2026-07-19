@@ -1056,3 +1056,11 @@ body {
 @media (max-width: 767px) {
   .link-cards { grid-template-columns: 1fr; }
 }
+
+/* β版バッジ（ヘッダーロゴ横） */
+.beta-tag {
+  display: inline-block; margin-left: 8px; padding: 1px 9px;
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.05em;
+  color: var(--white); background: var(--accent);
+  border-radius: 999px; vertical-align: 2px; white-space: nowrap;
+}
