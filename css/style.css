@@ -1072,3 +1072,50 @@ body {
 .join-list { margin: 0 0 16px; padding-left: 1.5em; }
 .join-list li { margin-bottom: 6px; }
 .join-cards { margin-top: 24px; }
+
+/* ============================================================
+   富山県内のアクセス
+============================================================ */
+.access-grid {
+  display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px;
+  grid-template-areas: "main bus" "main taxi";
+}
+.access-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 24px 26px;
+}
+.access-card-main {
+  grid-area: main;
+  border: 2px solid var(--accent);
+}
+.access-card:nth-of-type(2) { grid-area: bus; }
+.access-card:nth-of-type(3) { grid-area: taxi; }
+
+.access-badge {
+  display: inline-block; margin-bottom: 12px;
+  background: var(--accent); color: var(--white);
+  font-size: 0.8rem; font-weight: 700;
+  padding: 4px 14px; border-radius: 999px;
+}
+.access-card-title {
+  font-size: 1.2rem; font-weight: 900; color: var(--deep);
+  margin-bottom: 12px;
+}
+.access-points { list-style: none; padding: 0; margin: 0; }
+.access-points li {
+  position: relative; padding-left: 26px; margin-bottom: 14px;
+}
+.access-points li::before {
+  content: "✔"; position: absolute; left: 0; top: 0;
+  color: var(--green); font-weight: 700;
+}
+.access-points strong { color: var(--deep); }
+.access-desc { font-size: 0.95rem; color: var(--text); }
+
+@media (max-width: 767px) {
+  .access-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas: "main" "bus" "taxi";
+  }
+}
