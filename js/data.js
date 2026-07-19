@@ -129,16 +129,16 @@ const POSTS = [
  */
 const ROUTE_TABS = [
   {
-    id: "to-toyama",
-    label: "東京 → 富山",
-    spotHeader: "訪問スポット",
-    routes: ROUTES_TO_TOYAMA()
-  },
-  {
     id: "to-tokyo",
     label: "富山 → 東京",
     spotHeader: "訪問スポット",
     routes: ROUTES_TO_TOKYO()
+  },
+  {
+    id: "to-toyama",
+    label: "東京 → 富山",
+    spotHeader: "訪問スポット",
+    routes: ROUTES_TO_TOYAMA()
   }
 ];
 
