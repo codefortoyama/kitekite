@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0SFK86LPGH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-0SFK86LPGH');
+  </script>
+
+  <title>アンケート分析｜富山きてきて空港（β版）</title>
+  <meta name="description" content="富山県観光アンケートのうち飛行機で来県した回答者300件を全体10,834件と比較。富山空港利用者の消費額・満足度・旅の傾向を分析しました。">
+  <link rel="canonical" href="https://codefortoyama.github.io/kitekite/survey.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232b8fd6'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle'%3E%E2%9C%88%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- このページ専用：分析コンテンツが参照する変数をサイトのデザイントークンへ対応付け -->
+  <style>
+    .survey-doc {
+      --border: #d7e3ec;          /* 罫線 */
+      --surface-1: #f2f7fb;       /* カード背景（淡い空色） */
+      --text-secondary: #5a6b78;  /* 補足テキスト */
+      --text-success: #2e7d4f;    /* プラス値 */
+      --text-danger: #c0392b;     /* マイナス値 */
+      --font-voice: var(--font);  /* 見出し・数字はサイト共通フォント */
+    }
+    .survey-title {
+      font-family: var(--font);
+      font-size: clamp(1.7rem, 5vw, 2.5rem);
+      font-weight: 900; color: var(--deep);
+      line-height: 1.35; margin: 0 0 12px;
+    }
+    .survey-doc canvas { max-width: 100%; }
+    @media (max-width: 640px) {
+      .survey-kpi { grid-template-columns: 1fr !important; gap: 20px !important; }
+      .survey-kpi > div { border-left: none !important; border-right: none !important; }
+      .survey-2col { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</head>
+<body id="top" class="subpage">
+
+  <header class="site-header is-scrolled">
+    <div class="header-inner">
+      <a class="site-logo" href="./">
+        <span class="logo-mark" aria-hidden="true">✈</span>
+        <span class="logo-copy"><span class="logo-name">富山きてきて空港<span class="beta-tag">β版</span></span><small>TOYAMA AIRPORT FAN GUIDE</small></span>
+      </a>
+      <a class="subpage-back" href="./">トップページへ</a>
+    </div>
+  </header>
+
+  <main class="subpage-main">
+    <section class="section">
+      <div class="section-inner section-inner-narrow survey-doc">
+
+        <p class="visually-hidden">富山空港（飛行機利用）関連の観光アンケート分析。飛行機利用者300件は全体平均より満足度・消費額・NPS・宿泊数が高く、一方で空港アクセスや便数への不満も見られる。末尾にアンケートの諸元を記載。</p>
+
+        <div style="text-align:center;padding:1rem 1rem 2rem;border-bottom:0.5px solid var(--border)">
+          <p style="font-size:13px;color:var(--text-secondary);letter-spacing:0.02em;margin:0 0 12px">富山県観光アンケート ｜ セグメント分析</p>
+          <h1 class="survey-title">富山空港から来た旅行者は<br>何が違うのか</h1>
+          <p style="font-size:15px;color:var(--text-secondary);max-width:480px;margin:0 auto">飛行機で来県した回答者300件を、全体10,834件と比較しました</p>
+        </div>
+
+        <div class="survey-kpi" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;text-align:center;padding:2rem 0;border-bottom:0.5px solid var(--border)">
+          <div style="padding:0 12px">
+            <p style="font-family:var(--font-voice);font-size:48px;font-weight:500;margin:0;line-height:1">+45%</p>
+            <p style="font-size:13px;color:var(--text-secondary);margin:8px 0 0">1人当たり消費額<br>¥96,105（全体 ¥66,220）</p>
+          </div>
+          <div style="padding:0 12px;border-left:0.5px solid var(--border);border-right:0.5px solid var(--border)">
+            <p style="font-family:var(--font-voice);font-size:48px;font-weight:500;margin:0;line-height:1">46.0</p>
+            <p style="font-size:13px;color:var(--text-secondary);margin:8px 0 0">NPS<br>（全体 39.2、+6.8pt）</p>
+          </div>
+          <div style="padding:0 12px">
+            <p style="font-family:var(--font-voice);font-size:48px;font-weight:500;margin:0;line-height:1">2.45泊</p>
+            <p style="font-size:13px;color:var(--text-secondary);margin:8px 0 0">平均宿泊数<br>（全体 1.49泊）</p>
+          </div>
+        </div>
+
+        <div style="padding:2rem 0;border-bottom:0.5px solid var(--border)">
+          <p style="font-size:18px;font-weight:500;margin:0 0 4px">満足度・交通だけが例外</p>
+          <p style="font-size:14px;color:var(--text-secondary);margin:0 0 16px">旅行全体満足度は全体を上回るが、交通満足度だけはわずかに下回る</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px">
+            <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem">
+              <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px">旅行全体満足度</p>
+              <p style="font-size:24px;font-weight:500;margin:0">4.39</p>
+              <p style="font-size:12px;color:var(--text-success);margin:2px 0 0">全体 4.31 (+0.08)</p>
+            </div>
+            <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem">
+              <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px">交通満足度</p>
+              <p style="font-size:24px;font-weight:500;margin:0">3.81</p>
+              <p style="font-size:12px;color:var(--text-danger);margin:2px 0 0">全体 3.89 (-0.08)</p>
+            </div>
+            <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem">
+              <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px">再訪意向率</p>
+              <p style="font-size:24px;font-weight:500;margin:0">98.0%</p>
+              <p style="font-size:12px;color:var(--text-success);margin:2px 0 0">全体 97.7% (+0.3pt)</p>
+            </div>
+            <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem">
+              <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px">宿泊率</p>
+              <p style="font-size:24px;font-weight:500;margin:0">99.7%</p>
+              <p style="font-size:12px;color:var(--text-success);margin:2px 0 0">全体 84.8% (+14.9pt)</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:2rem 0;border-bottom:0.5px solid var(--border)">
+          <p style="font-size:18px;font-weight:500;margin:0 0 4px">誰が、いつ来ているか</p>
+          <p style="font-size:14px;color:var(--text-secondary);margin:0 0 16px">東京・神奈川・北海道からの利用が中心で、春に集中</p>
+          <div style="position:relative;width:100%;height:280px;margin-bottom:1.5rem">
+            <canvas id="chResidence" role="img" aria-label="居住都道府県別の飛行機利用回答数の棒グラフ。東京都65件、神奈川県52件、北海道52件、福岡県26件など">東京都65、神奈川県52、北海道52、福岡県26、千葉県21、埼玉県10、宮崎県8、大分県7、富山県7、沖縄県6件。</canvas>
+          </div>
+          <div class="survey-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+            <div>
+              <p style="font-size:14px;font-weight:500;margin:0 0 8px">季節別 回答数</p>
+              <div style="position:relative;width:100%;height:220px">
+                <canvas id="chSeason" role="img" aria-label="季節別の飛行機利用回答数。春182件、冬62件、夏34件、秋22件">春182件、夏34件、秋22件、冬62件。</canvas>
+              </div>
+            </div>
+            <div>
+              <p style="font-size:14px;font-weight:500;margin:0 0 8px">年代構成</p>
+              <div style="position:relative;width:100%;height:220px">
+                <canvas id="chAge" role="img" aria-label="年代別構成比。50代112件、60代84件、40代36件など">50代112件、60代84件、40代36件、30代23件、70代20件、20代19件。</canvas>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;font-size:11px;color:var(--text-secondary)">
+                <span style="display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:2px;background:#2a78d6"></span>50代</span>
+                <span style="display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:2px;background:#eb6834"></span>60代</span>
+                <span style="display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:2px;background:#1baf7a"></span>40代</span>
+                <span style="display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:2px;background:#eda100"></span>30代</span>
+                <span style="display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:2px;background:#e87ba4"></span>70代</span>
+                <span style="display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:2px;background:#4a3aa7"></span>20代</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:2rem 0;border-bottom:0.5px solid var(--border)">
+          <p style="font-size:18px;font-weight:500;margin:0 0 4px">何をしに来ているか</p>
+          <p style="font-size:14px;color:var(--text-secondary);margin:0 0 16px">7割近くが「地元グルメ」目的。県内の移動は鉄道とレンタカーが二分</p>
+          <div style="position:relative;width:100%;height:260px;margin-bottom:1.5rem">
+            <canvas id="chPurpose" role="img" aria-label="訪問目的の回答者比率。地元グルメ67.3%、名所観光28.0%、温泉27.3%など">地元グルメ67.3%、名所旧跡観光28.0%、温泉・露天風呂27.3%、宿でのんびり21.3%、文化施設見学20.7%、自然鑑賞19.7%、友人知人訪問14.3%、まちあるき13.3%。</canvas>
+          </div>
+          <div style="position:relative;width:100%;height:220px">
+            <canvas id="chTransport" role="img" aria-label="県内交通手段の回答者比率。在来線・私鉄・路面電車41.7%、レンタカー39.7%など">在来線・私鉄・路面電車41.7%、レンタカー39.7%、徒歩18.7%、路線バス18.0%、自家用車8.3%、旅行会社ツアーバス6.3%、タクシー5.7%。</canvas>
+          </div>
+        </div>
+
+        <div style="padding:2rem 0;border-bottom:0.5px solid var(--border)">
+          <p style="font-size:18px;font-weight:500;margin:0 0 4px">生の声</p>
+          <p style="font-size:14px;color:var(--text-secondary);margin:0 0 16px">「富山空港」に言及した自由記述16件より抜粋</p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="background:var(--surface-1);border-radius:var(--radius);padding:0.75rem 1rem">
+              <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px"><span aria-hidden="true" style="margin-right:6px">🚌</span>アクセス・二次交通への不満</p>
+              <p style="font-size:14px;margin:0">「富山空港からのアクセスが不便」「シャトルバス、Suicaが使えず不便」「ICカードが使えるように」（北海道・埼玉・宮崎から複数件）</p>
+            </div>
+            <div style="background:var(--surface-1);border-radius:var(--radius);padding:0.75rem 1rem">
+              <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px"><span aria-hidden="true" style="margin-right:6px">🛫</span>便数・就航先への要望</p>
+              <p style="font-size:14px;margin:0">「羽田便を増やして欲しい」「富山空港にJALが就航していない」「福岡と富山空港が繋がると嬉しい」「海外や九州・四国・東北・北海道からの需要喚起を」</p>
+            </div>
+            <div style="background:var(--surface-1);border-radius:var(--radius);padding:0.75rem 1rem">
+              <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px"><span aria-hidden="true" style="margin-right:6px">🍽️</span>空港内の飲食・売店</p>
+              <p style="font-size:14px;margin:0">「もう少し売店や飲食店に活気があれば」「空港で食事できるところが少ない」「きときと空港の寿司が高すぎる」</p>
+            </div>
+            <div style="background:var(--surface-1);border-radius:var(--radius);padding:0.75rem 1rem">
+              <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px"><span aria-hidden="true" style="margin-right:6px">😊</span>好意的な声</p>
+              <p style="font-size:14px;margin:0">「東京からは飛行機も安く行けたり、富山空港から市内も近い」「きときと空港のきときとがいつもプっと笑える」</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:2rem 0 0.5rem">
+          <p style="font-size:13px;font-weight:500;color:var(--text-secondary);margin:0 0 10px">アンケートの諸元</p>
+          <table style="width:100%;font-size:12px;color:var(--text-secondary);border-collapse:collapse">
+            <tr><td style="padding:4px 12px 4px 0;white-space:nowrap">調査名</td><td style="padding:4px 0">富山県観光アンケート</td></tr>
+            <tr><td style="padding:4px 12px 4px 0;white-space:nowrap">データバージョン</td><td style="padding:4px 0">2026-05（指標定義バージョン 1.0.0）</td></tr>
+            <tr><td style="padding:4px 12px 4px 0;white-space:nowrap">回答期間</td><td style="padding:4px 0">2025-04-28 〜 2026-05-31</td></tr>
+            <tr><td style="padding:4px 12px 4px 0;white-space:nowrap">総回答数</td><td style="padding:4px 0">10,834件（うち飛行機利用 300件）</td></tr>
+            <tr><td style="padding:4px 12px 4px 0;white-space:nowrap">個人情報</td><td style="padding:4px 0">PIIマスキング済み、k匿名性しきい値 5</td></tr>
+            <tr><td style="padding:4px 12px 4px 0;vertical-align:top;white-space:nowrap">留意事項</td><td style="padding:4px 0">月別回答数に偏りがあるため単純な月次比較は注意が必要。回答場所・訪問場所・宿泊地は別概念。複数回答は回答者比と選択数比を区別。回答数の少ない属性のNPS・平均値は参考値。</td></tr>
+          </table>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-logo"><span aria-hidden="true">✈</span> 富山きてきて空港</p>
+      <p class="footer-tagline">富山空港をみんなで応援する非公式ファンサイト</p>
+      <p class="footer-unofficial">本サイトは非公式サイトです。公式情報は各事業者のサイトをご確認ください。</p>
+      <p class="footer-copy"><small>&copy; Code for Toyama City</small></p>
+    </div>
+    <a class="back-to-top" href="#top" aria-label="ページ上部へ戻る">▲<span class="visually-hidden">ページ上部へ戻る</span></a>
+  </footer>
+
+  <!-- グラフ描画（Chart.js・CDN） -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <script>
+  // サイト配色に合わせたグリッド・目盛りの色
+  const grid = { color: '#d7e3ec' };
+  const tick = { color: '#5a6b78', font: { size: 12 } };
+
+  new Chart(document.getElementById('chResidence'), {
+    type: 'bar',
+    data: {
+      labels: ['東京都','神奈川県','北海道','福岡県','千葉県','埼玉県','宮崎県','大分県','富山県','沖縄県'],
+      datasets: [{ data: [65,52,52,26,21,10,8,7,7,6], backgroundColor: '#378add', borderRadius: 4, maxBarThickness: 28 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.parsed.y + '件' } } },
+      scales: { x: { grid: { display: false }, ticks: tick }, y: { grid, ticks: tick, title: { display: true, text: '回答数（件）', color: '#5a6b78', font: { size: 12 } } } }
+    }
+  });
+
+  new Chart(document.getElementById('chSeason'), {
+    type: 'bar',
+    data: { labels: ['春','夏','秋','冬'], datasets: [{ data: [182,34,22,62], backgroundColor: '#378add', borderRadius: 4, maxBarThickness: 40 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.parsed.y + '件' } } },
+      scales: { x: { grid: { display: false }, ticks: tick }, y: { grid, ticks: tick } }
+    }
+  });
+
+  new Chart(document.getElementById('chAge'), {
+    type: 'doughnut',
+    data: {
+      labels: ['50代','60代','40代','30代','70代','20代'],
+      datasets: [{ data: [112,84,36,23,20,19], backgroundColor: ['#2a78d6','#eb6834','#1baf7a','#eda100','#e87ba4','#4a3aa7'] }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+  });
+
+  new Chart(document.getElementById('chPurpose'), {
+    type: 'bar',
+    data: {
+      labels: ['地元グルメ','名所旧跡観光','温泉・露天風呂','宿でのんびり','文化施設見学','自然鑑賞','友人知人訪問','まちあるき'],
+      datasets: [{ data: [67.3,28.0,27.3,21.3,20.7,19.7,14.3,13.3], backgroundColor: '#378add', borderRadius: 4, maxBarThickness: 22 }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.parsed.x + '%' } } },
+      scales: { x: { grid, ticks: { ...tick, callback: v => v + '%' }, title: { display: true, text: '回答者比', color: '#5a6b78', font: { size: 12 } } }, y: { grid: { display: false }, ticks: tick } }
+    }
+  });
+
+  new Chart(document.getElementById('chTransport'), {
+    type: 'bar',
+    data: {
+      labels: ['在来線・私鉄・路面電車','レンタカー','徒歩','路線バス','自家用車','旅行会社ツアーバス','タクシー'],
+      datasets: [{ data: [41.7,39.7,18.7,18.0,8.3,6.3,5.7], backgroundColor: '#eb6834', borderRadius: 4, maxBarThickness: 22 }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.parsed.x + '%' } } },
+      scales: { x: { grid, ticks: { ...tick, callback: v => v + '%' }, title: { display: true, text: '回答者比', color: '#5a6b78', font: { size: 12 } } }, y: { grid: { display: false }, ticks: tick } }
+    }
+  });
+  </script>
+</body>
+</html>
