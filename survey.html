@@ -101,6 +101,29 @@
     background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 64px);
     pointer-events:none;
   }
+  .hero-home-link{
+    position:absolute;
+    right:6vw;
+    top:18px;
+    z-index:2;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 14px;
+    border-radius:999px;
+    border:1px solid rgba(232,244,252,0.35);
+    background:rgba(8,42,68,0.55);
+    color:#eaf4fb;
+    font-family:'Space Mono',monospace;
+    font-size:0.72rem;
+    letter-spacing:0.04em;
+    text-decoration:none;
+    transition:background 0.2s ease, border-color 0.2s ease;
+  }
+  .hero-home-link:hover{
+    background:rgba(43,143,214,0.28);
+    border-color:rgba(232,244,252,0.6);
+  }
   .hero-top{
     display:flex; justify-content:space-between; align-items:flex-start; gap:24px;
     flex-wrap:wrap; position:relative; z-index:1;
@@ -407,6 +430,7 @@
     .span-7,.span-5,.span-4,.span-6{grid-column:span 12;}
     .flip-row{grid-template-columns:repeat(2,1fr);}
     .spec-grid{grid-template-columns:repeat(2,1fr);}
+    .hero-home-link{top:14px;}
   }
 </style>
 </head>
@@ -418,6 +442,7 @@
 
 <!-- ============ HERO ============ -->
 <header class="hero">
+  <a class="hero-home-link" href="./">← TOP PAGE</a>
   <div class="hero-top">
     <div>
       <span class="airport-tag">TOYAMA AIRPORT ／ とやま きときと空港</span>
