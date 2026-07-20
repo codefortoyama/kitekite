@@ -4,14 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0SFK86LPGH"></script>
+  <!-- Google Analytics (production hostname only) -->
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    (function () {
+      var GA_MEASUREMENT_ID = 'G-0SFK86LPGH';
+      var ALLOWED_HOSTNAMES = {
+        'codefortoyama.github.io': true
+      };
 
-    gtag('config', 'G-0SFK86LPGH');
+      if (!ALLOWED_HOSTNAMES[window.location.hostname]) {
+        return;
+      }
+
+      var gaScript = document.createElement('script');
+      gaScript.async = true;
+      gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
+      document.head.appendChild(gaScript);
+
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', GA_MEASUREMENT_ID);
+    })();
   </script>
   <title>プライバシーポリシー｜富山きてきて空港（β版）</title>
   <meta name="description" content="富山空港を応援する非公式ファンサイト「富山きてきて空港」のプライバシーポリシーです。">
