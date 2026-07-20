@@ -705,14 +705,40 @@
       });
     }
 
-    /** 軌跡を破線のポリラインとして再描画 */
+    /**
+     * Catmull-Romスプラインで点列を滑らかな曲線用の点列に変換
+     * （Leaflet本体・追加ライブラリなしで実現するための自前実装）
+     */
+    function splinePoints(pts, segments) {
+      if (pts.length < 3) return pts.slice();
+      segments = segments || 8;
+      const p = [pts[0]].concat(pts, [pts[pts.length - 1]]);
+      const result = [];
+      for (let i = 1; i < p.length - 2; i++) {
+        const p0 = p[i - 1], p1 = p[i], p2 = p[i + 1], p3 = p[i + 2];
+        for (let s = 0; s < segments; s++) {
+          const t = s / segments, t2 = t * t, t3 = t2 * t;
+          const lat = 0.5 * (2 * p1[0] + (p2[0] - p0[0]) * t +
+            (2 * p0[0] - 5 * p1[0] + 4 * p2[0] - p3[0]) * t2 +
+            (3 * p1[0] - p0[0] - 3 * p2[0] + p3[0]) * t3);
+          const lon = 0.5 * (2 * p1[1] + (p2[1] - p0[1]) * t +
+            (2 * p0[1] - 5 * p1[1] + 4 * p2[1] - p3[1]) * t2 +
+            (3 * p1[1] - p0[1] - 3 * p2[1] + p3[1]) * t3);
+          result.push([lat, lon]);
+        }
+      }
+      result.push(pts[pts.length - 1]);
+      return result;
+    }
+
+    /** 軌跡を破線の滑らかな曲線として再描画 */
     function renderTrails() {
       trailsLayer.clearLayers();
       trails.forEach(function (t) {
         if (t.points.length < 2) return;
-        L.polyline(t.points, {
+        L.polyline(splinePoints(t.points), {
           color: "#d93025", weight: 3, opacity: 0.55,
-          dashArray: "1 7", lineCap: "round"
+          dashArray: "1 7", lineCap: "round", smoothFactor: 1
         }).addTo(trailsLayer);
       });
     }
