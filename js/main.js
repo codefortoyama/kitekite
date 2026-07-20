@@ -677,6 +677,46 @@
     // 航空機マーカーをまとめて管理するレイヤー
     const planesLayer = L.layerGroup().addTo(map);
 
+    /**
+     * 富山空港発着（確認済み）の軌跡
+     * ブラウザのメモリ内だけで管理（保存はしない・ページを閉じる/再読み込みで消える）
+     */
+    const trailsLayer = L.layerGroup().addTo(map);
+    const trails = new Map(); // 便名 → { points: [[lat,lon], ...], lastSeen: サイクル番号 }
+    const TRAIL_MAX_POINTS = 90; // 更新60秒 × 90 ≒ 1.5時間分（1フライト分より十分長い）
+    let fetchCycle = 0;
+
+    /** 富山便と確認できた機体の現在位置を軌跡に追加（同一座標の重複追加は避ける） */
+    function addTrailPoint(callsign, lat, lon) {
+      let t = trails.get(callsign);
+      if (!t) { t = { points: [], lastSeen: 0 }; trails.set(callsign, t); }
+      const last = t.points[t.points.length - 1];
+      if (!last || last[0] !== lat || last[1] !== lon) {
+        t.points.push([lat, lon]);
+        if (t.points.length > TRAIL_MAX_POINTS) t.points.shift();
+      }
+      t.lastSeen = fetchCycle;
+    }
+
+    /** しばらく見えなくなった軌跡（着陸・圏外離脱など）を削除 */
+    function pruneTrails() {
+      trails.forEach(function (t, cs) {
+        if (fetchCycle - t.lastSeen > 3) trails.delete(cs);
+      });
+    }
+
+    /** 軌跡を破線のポリラインとして再描画 */
+    function renderTrails() {
+      trailsLayer.clearLayers();
+      trails.forEach(function (t) {
+        if (t.points.length < 2) return;
+        L.polyline(t.points, {
+          color: "#d93025", weight: 3, opacity: 0.55,
+          dashArray: "1 7", lineCap: "round"
+        }).addTo(trailsLayer);
+      });
+    }
+
     /** 北向き基準の飛行機アイコン（track度だけ回転させる）
         isToy=true（富山空港発着便・推定）は赤、地上機はグレー、それ以外は紺 */
     function planeIcon(track, isGround, isToy) {
@@ -718,20 +758,27 @@
     function drawPlanes(list) {
       planesLayer.clearLayers();
       markerByCallsign = {};
+      fetchCycle++;
       let count = 0;
       list.forEach(function (ac) {
         if (typeof ac.lat !== "number" || typeof ac.lon !== "number") return;
         const callsign = (ac.flight || "").trim();
         const route = callsign ? routeCache.get(callsign) : undefined;
+        const isToy = !!(route && route.related);
         const marker = L.marker([ac.lat, ac.lon], {
-          icon: planeIcon(ac.track, ac.alt_baro === "ground", !!(route && route.related))
+          icon: planeIcon(ac.track, ac.alt_baro === "ground", isToy)
         });
         // APIから来る文字列は念のためエスケープしてから表示
         marker.bindPopup(popupHtml(ac, route));
         marker.addTo(planesLayer);
-        if (callsign) markerByCallsign[callsign] = { marker: marker, ac: ac };
+        if (callsign) {
+          markerByCallsign[callsign] = { marker: marker, ac: ac };
+          if (isToy) addTrailPoint(callsign, ac.lat, ac.lon);
+        }
         count++;
       });
+      pruneTrails();
+      renderTrails();
       return count;
     }
 
@@ -791,6 +838,11 @@
             if (entry && route) {
               entry.marker.setIcon(planeIcon(entry.ac.track, entry.ac.alt_baro === "ground", route.related));
               entry.marker.setPopupContent(popupHtml(entry.ac, route));
+              if (route.related) {
+                // このサイクル内で富山便と判明：現在地を軌跡の起点として記録
+                addTrailPoint(cs, entry.ac.lat, entry.ac.lon);
+                renderTrails();
+              }
               renderMapStatus(); // 富山便の機数表示を更新
             }
           } catch (_) {
