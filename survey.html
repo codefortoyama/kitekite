@@ -82,8 +82,20 @@
     text-align:center;
     padding:9px 16px;
     border-bottom:1px solid rgba(255,255,255,0.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:6px 16px;
   }
   .credit-bar b{color:var(--amber); font-weight:700;}
+  .credit-bar-link{
+    color:var(--amber);
+    text-decoration:underline;
+    text-underline-offset:2px;
+    white-space:nowrap;
+  }
+  .credit-bar-link:hover{opacity:0.8;}
 
   /* ---------- HERO / DEPARTURE BOARD ---------- */
   .hero{
@@ -437,7 +449,8 @@
 <body>
 
 <div class="credit-bar">
-  本ページは、<b>株式会社EvoLiNQ</b>が開発した、観光WEBアンケートデータAI分析基盤を利用して自動作成したものです。
+  <span>本ページは、<b>株式会社EvoLiNQ</b>が開発した、観光WEBアンケートデータAI分析基盤を利用して自動作成したものです。</span>
+  <a class="credit-bar-link" href="doc/toyama_report_v3_corrected.pdf" target="_blank" rel="noopener noreferrer">元データレポート（PDF）を見る ↗</a>
 </div>
 
 <!-- ============ HERO ============ -->
