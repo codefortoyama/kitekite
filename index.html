@@ -142,6 +142,7 @@
 
           <div class="hero-cta">
             <a class="btn btn-primary" href="#flight-map"><span aria-hidden="true">✈</span> 現在のフライトを見る</a>
+            <a class="btn btn-secondary" href="#business">日帰り出張の可否を見る <span aria-hidden="true">→</span></a>
             <a class="btn btn-secondary" href="#posts">空港情報を見る <span aria-hidden="true">→</span></a>
           </div>
         </div>
@@ -247,11 +248,56 @@
     </section>
 
     <!-- ============================================================
-         4. フライトマップ
+         4. 日帰り出張シミュレーション
+    ============================================================ -->
+    <section class="section section-business" id="business" aria-labelledby="business-title">
+      <div class="section-inner section-inner-narrow">
+        <h2 class="section-title" id="business-title"><span class="section-icon" aria-hidden="true">02</span>日帰り出張はできる？<wbr>（羽田⇔富山シミュレーション）</h2>
+        <p class="section-lead">
+          羽田－富山線の時刻表をもとに、日帰り出張の場合に現地で使える時間を試算しました。
+          新幹線でも日帰りは可能ですが、飛行機は早朝発・夜遅め着の便を選べるため、現地での活動時間を長く確保しやすいのが特徴です。
+        </p>
+        <p class="sample-tag">※ 2026年7月時点の公式時刻表を基にした試算です</p>
+
+        <div class="business-grid">
+          <article class="access-card">
+            <p class="access-badge">✈ 東京 → 富山</p>
+            <h3 class="access-card-title">日帰り出張（富山へ）</h3>
+            <ul class="access-points">
+              <li><strong>往路</strong>：NH315　羽田 09:50発 → 富山 10:50着</li>
+              <li><strong>復路</strong>：NH322　富山 18:05発 → 羽田 19:15着</li>
+              <li><strong>富山での活動時間の目安：約6時間</strong>（空港からの移動・保安検査の余裕を含む概算）</li>
+            </ul>
+          </article>
+
+          <article class="access-card">
+            <p class="access-badge">✈ 富山 → 東京</p>
+            <h3 class="access-card-title">日帰り出張（東京へ）</h3>
+            <ul class="access-points">
+              <li><strong>往路</strong>：NH312　富山 07:05発 → 羽田 08:10着</li>
+              <li><strong>復路</strong>：NH321　羽田 19:25発 → 富山 20:25着</li>
+              <li><strong>東京での活動時間の目安：約9時間30分</strong>（空港からの移動・保安検査の余裕を含む概算）</li>
+            </ul>
+          </article>
+        </div>
+
+        <p class="compare-disclaimer">
+          掲載した便名・時刻は2026年7月時点の羽田－富山線の時刻表によるサンプルです。運航スケジュール・機材は季節により変更される場合があります。
+          実際の出張の際は、<a href="https://www.toyama-airport.jp/flight/" target="_blank" rel="noopener noreferrer">富山空港の公式フライト情報</a>で最新の時刻をご確認ください。
+          社用車での来場には、富山空港の<a href="#access">無料駐車場</a>もご検討ください。
+          実際に飛行機で来県したビジネス利用者の満足度・消費額データは、<a href="survey.html">アンケート分析</a>でも紹介しています。<br>
+          <strong>最終確認日：2026年7月21日</strong>／
+          情報に誤りを見つけた場合は、<a href="#submit">お問い合わせフォーム</a>からお知らせください。
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         5. フライトマップ
     ============================================================ -->
     <section class="section section-map" id="flight-map" aria-labelledby="map-title">
       <div class="section-inner">
-        <h2 class="section-title" id="map-title"><span class="section-icon" aria-hidden="true">02</span>いま、富山空港の空は？<wbr>（リアルタイムフライトマップ）</h2>
+        <h2 class="section-title" id="map-title"><span class="section-icon" aria-hidden="true">03</span>いま、富山空港の空は？<wbr>（リアルタイムフライトマップ）</h2>
         <p class="section-lead">
           富山空港周辺を飛行している航空機を、ライブマップで確認できます。
           データは有志のADS-B受信ネットワークによるもので、すべての機体が表示されるとは限りません。
@@ -306,7 +352,7 @@
     </section>
 
     <!-- ============================================================
-         5. 富山県内のアクセス
+         6. 富山県内のアクセス
     ============================================================ -->
     <section class="section section-access" id="access" aria-labelledby="access-title">
       <div class="section-inner">
@@ -474,11 +520,11 @@
     </section>
 
     <!-- ============================================================
-         6. 投稿情報表示欄
+         7. 投稿情報表示欄
     ============================================================ -->
     <section class="section section-posts" id="posts" aria-labelledby="posts-title">
       <div class="section-inner">
-        <h2 class="section-title" id="posts-title"><span class="section-icon" aria-hidden="true">03</span>みんなから届いた富山空港情報</h2>
+        <h2 class="section-title" id="posts-title"><span class="section-icon" aria-hidden="true">04</span>みんなから届いた富山空港情報</h2>
         <p class="section-lead">
           利用者のみなさんから寄せられた情報を紹介します。掲載内容は投稿時点のものです。
           <strong>最新の情報は必ず公式情報をご確認ください。</strong>
@@ -500,11 +546,11 @@
     </section>
 
     <!-- ============================================================
-         7. 情報投稿フォーム
+         8. 情報投稿フォーム
     ============================================================ -->
     <section class="section section-form" id="submit" aria-labelledby="form-title">
       <div class="section-inner section-inner-narrow">
-        <h2 class="section-title" id="form-title"><span class="section-icon" aria-hidden="true">04</span>あなたの富山空港情報を教えてください</h2>
+        <h2 class="section-title" id="form-title"><span class="section-icon" aria-hidden="true">05</span>あなたの富山空港情報を教えてください</h2>
         <p class="section-lead">
           富山空港を利用して気づいたこと、おすすめ情報、イベント情報などをお寄せください。
           投稿いただいた内容は、<strong>管理者が確認したうえで掲載</strong>します（そのまま自動公開はされません）。
@@ -639,7 +685,7 @@
     </section>
 
     <!-- ============================================================
-         8. 協力者募集
+         9. 協力者募集
     ============================================================ -->
     <section class="section section-join" id="join" aria-labelledby="join-title">
       <div class="section-inner section-inner-narrow">
@@ -678,11 +724,11 @@
     </section>
 
     <!-- ============================================================
-         9. 空港の諸元・就航機材
+         10. 空港の諸元・就航機材
     ============================================================ -->
     <section class="section section-specs" id="specs" aria-labelledby="specs-title">
       <div class="section-inner">
-        <h2 class="section-title" id="specs-title"><span class="section-icon" aria-hidden="true">05</span>富山空港のデータ</h2>
+        <h2 class="section-title" id="specs-title"><span class="section-icon" aria-hidden="true">06</span>富山空港のデータ</h2>
         <p class="section-lead">
           富山空港の基本情報です。一般に公開されている情報を基にした<strong>参考値</strong>で、
           最新・正確な情報は公式サイトをご確認ください。
@@ -753,11 +799,11 @@
     </section>
 
     <!-- ============================================================
-         10. サイトについて・免責事項
+         11. サイトについて・免責事項
     ============================================================ -->
     <section class="section section-about" id="about" aria-labelledby="about-title">
       <div class="section-inner section-inner-narrow">
-        <h2 class="section-title" id="about-title"><span class="section-icon" aria-hidden="true">06</span>このサイトについて</h2>
+        <h2 class="section-title" id="about-title"><span class="section-icon" aria-hidden="true">07</span>このサイトについて</h2>
 
         <div class="about-body">
           <p>
@@ -785,7 +831,7 @@
   </main>
 
   <!-- ============================================================
-       11. フッター
+       12. フッター
   ============================================================ -->
   <footer class="site-footer">
     <div class="footer-inner">

@@ -1119,6 +1119,15 @@ body {
 }
 .access-points strong { color: var(--deep); }
 
+/* 日帰り出張シミュレーション（.access-card を2列で並べる） */
+.business-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+  margin-bottom: 24px;
+}
+@media (max-width: 767px) {
+  .business-grid { grid-template-columns: 1fr; }
+}
+
 /* ヒーロー背景写真（object-fitで全面カバー） */
 .hero-photo {
   width: 100%; height: 100%;
