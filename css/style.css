@@ -862,8 +862,10 @@ body {
   padding: 5px 9px; border: 1px solid rgba(98, 205, 236, .7);
   border-radius: 0; color: #9be3f7; letter-spacing: .08em;
 }
-/* H1の上に置く控えめなサイト説明（H1より小さく） */
+/* H1内に置く控えめなサイト説明（H1より小さく・独立した行に）
+   SEO上はH1に含めつつ、見た目は従来どおり小さな文字を上に表示 */
 .hero-suptitle {
+  display: block;
   margin-bottom: 8px;
   font-size: clamp(0.95rem, 1.9vw, 1.3rem);
   font-weight: 700; color: #d8edf3;
