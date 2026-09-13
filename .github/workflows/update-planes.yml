@@ -31,9 +31,11 @@ jobs:
           git add data/planes.json
           git diff --cached --quiet && exit 0
           git commit -m "chore: update plane data"
-          # 手動編集のpushと競合した場合に備え、リベースして1回だけ再試行する
+          # 手動編集のpushと競合した場合に備え、リベースして再試行する
           for i in 1 2 3; do
             git push && exit 0
             git pull --rebase origin main
+            sleep 2
           done
-          git push
+          echo "Failed to push after 3 attempts (non-fast-forward conflicts)." >&2
+          exit 1
