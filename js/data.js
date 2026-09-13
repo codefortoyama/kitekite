@@ -9,21 +9,11 @@
 const AIRPORT = { name: "富山空港", iata: "TOY", lat: 36.6483, lon: 137.1875 };
 
 /**
- * ADS-B オープンデータのAPIソース（APIキー不要・上から順に試行）
- * - airplanes.live：CORS対応を確認済み（ブラウザから直接取得できる）
- * - adsb.fi：予備。CORS非対応の場合はブラウザでは失敗し、次に進む
- * 半径はNM（海里）。150NM ≒ 約280km
+ * 富山空港周辺のADS-Bデータ（GitHub Actionsが定期取得して書き出す静的JSON）。
+ * 外部API（adsb.fi / adsb.lol）はCORS非対応でブラウザから直接叩けないため、
+ * scripts/fetch-planes.mjs がサーバー間通信で取得し、このファイルに保存する。
  */
-const ADSB_SOURCES = [
-  {
-    name: "airplanes.live",
-    url: "https://api.airplanes.live/v2/point/" + AIRPORT.lat + "/" + AIRPORT.lon + "/150"
-  },
-  {
-    name: "adsb.fi",
-    url: "https://opendata.adsb.fi/api/v2/lat/" + AIRPORT.lat + "/lon/" + AIRPORT.lon + "/dist/150"
-  }
-];
+const PLANES_DATA_URL = "data/planes.json";
 
 /**
  * 便名から経路（出発地・目的地）を調べるAPI（adsbdb.com・APIキー不要・CORS対応）

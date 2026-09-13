@@ -645,7 +645,7 @@
 
   /* ============================================================
      6. ライブフライトマップ（Leaflet + ADS-Bオープンデータ）
-     - APIキー不要。airplanes.live を優先し、失敗時は adsb.fi を試行
+     - APIキー不要。GitHub Actionsが adsb.fi / adsb.lol から定期取得した静的JSONを読む
      - Leaflet が読み込めない場合は静的地図（iframe）にフォールバック
   ============================================================ */
   (function initLiveMap() {
@@ -907,32 +907,30 @@
       statusEl.textContent = text;
     }
 
-    /** ADS-Bデータを取得して描画（ソースを順に試行） */
+    /**
+     * ADS-Bデータを取得して描画。
+     * ブラウザから外部APIを直接叩くとCORSで弾かれるため、GitHub Actionsが
+     * 定期取得して書き出した静的JSON（PLANES_DATA_URL）を読みに行く。
+     */
     async function fetchPlanes() {
       lastFetched = Date.now();
-      for (let i = 0; i < ADSB_SOURCES.length; i++) {
-        const src = ADSB_SOURCES[i];
-        try {
-          const opts = {};
-          // タイムアウト（対応ブラウザのみ）
-          if (typeof AbortSignal !== "undefined" && AbortSignal.timeout) {
-            opts.signal = AbortSignal.timeout(10000);
-          }
-          const res = await fetch(src.url, opts);
-          if (!res.ok) throw new Error("HTTP " + res.status);
-          const data = await res.json();
-          // airplanes.live は ac、adsb.fi は aircraft キーで返す
-          const count = drawPlanes(data.ac || data.aircraft || []);
-          lastFetchInfo = { count: count, time: new Date().toLocaleTimeString("ja-JP"), name: src.name };
-          renderMapStatus();
-          lookupRoutes(); // 経路を調べてTOY発着便を赤色に（非同期・完了を待たない）
-          return;
-        } catch (_) {
-          // 失敗したら次のソースを試す
+      try {
+        const opts = {};
+        if (typeof AbortSignal !== "undefined" && AbortSignal.timeout) {
+          opts.signal = AbortSignal.timeout(10000);
         }
+        // キャッシュ回避のためタイムスタンプを付与
+        const res = await fetch(PLANES_DATA_URL + "?t=" + Date.now(), opts);
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        const count = drawPlanes(data.aircraft || []);
+        lastFetchInfo = { count: count, time: new Date(data.fetched_at).toLocaleTimeString("ja-JP"), name: data.source };
+        renderMapStatus();
+        lookupRoutes(); // 経路を調べてTOY発着便を赤色に（非同期・完了を待たない）
+      } catch (_) {
+        // 取得失敗：地図はそのまま残し、状況だけ知らせる
+        statusEl.textContent = "⚠ 航空機データを取得できませんでした。時間をおくと自動で再試行します。";
       }
-      // 全ソース失敗：地図はそのまま残し、状況だけ知らせる
-      statusEl.textContent = "⚠ 航空機データを取得できませんでした。時間をおくと自動で再試行します。";
     }
 
     fetchPlanes();

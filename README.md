@@ -28,6 +28,12 @@ kitekite/
 ├── img/                # 写真（ヒーロー背景・機材写真）
 ├── gas/
 │   └── helpful-counter.gs  # 「役に立った」集計用 Apps Script（§10）
+├── data/
+│   └── planes.json     # 機体位置データ（GitHub Actionsが自動生成・§7）
+├── scripts/
+│   └── fetch-planes.mjs   # planes.json を生成するNodeスクリプト（§7）
+├── .github/workflows/
+│   └── update-planes.yml  # fetch-planes.mjs を5分おきに実行（§7）
 ├── .nojekyll           # GitHub Pages で Jekyll 処理を無効化
 └── README.md           # このファイル
 ```
@@ -41,7 +47,7 @@ kitekite/
 | `ROUTE_TABS` | 移動時間比較（東京→富山 / 富山→東京、各10スポット） |
 | `FARES` | 運賃比較（購入パターン別6行） |
 | `AIRPORT` | 富山空港の座標（ライブマップの中心） |
-| `ADSB_SOURCES` | 機体位置データのAPIソース |
+| `PLANES_DATA_URL` | 機体位置データ（GitHub Actionsが生成する静的JSON）のパス |
 | `ROUTE_API` | 便名→経路の照会API（TOY発着判定用） |
 | `GOOGLE_FORM` | 旧・直接POST用設定（現在は無効。§9参照） |
 | `HELPFUL_API` | 「役に立った」集計APIのURL（未設定ならローカル動作） |
@@ -144,19 +150,19 @@ Flightradar24は技術的（X-Frame-Options / CSP）にも規約的にも埋め�
 **ADS-Bオープンデータ + Leaflet による自前ライブマップ**を実装しています（すべてAPIキー不要・無料）。
 
 - 地図描画: [Leaflet 1.9.4](https://leafletjs.com/)（unpkg CDN・SRI付き）＋ OpenStreetMapタイル（初期ズーム: 7）
-- 機体データ: `ADSB_SOURCES` に定義。**airplanes.live**（CORS対応を実測確認済み）を優先し、失敗時は adsb.fi を試行。取得範囲は空港から半径150NM（約280km）
+- 機体データ: adsb.fi / adsb.lol はCORS非対応でブラウザから直接叩けないため、**GitHub Actions**（`.github/workflows/update-planes.yml`）が5分おきに `scripts/fetch-planes.mjs` を実行してサーバー間通信で取得し、`data/planes.json` に保存。ブラウザ（`js/main.js`）は同一オリジンのこの静的JSONを60秒おきに読みに行く（`PLANES_DATA_URL`）。取得範囲は空港から半径150NM（約280km）
 - 経路判定: **adsbdb.com**（`ROUTE_API`）で便名から出発地・目的地を照会し、**TOY / RJNT 発着とみられる機体を赤色表示**。ポップアップに「HND → TOY」形式で経路も表示
   - 照会は**富山空港に近い機体から優先**、1回の更新につき最大8便・400ms間隔（レート制限への配慮）。結果はセッション内キャッシュ
 - 軌跡表示: 富山便と確認できた機体は、**ページを開いてからの飛行位置を赤い破線でつないで表示**（`js/main.js` の `trails`）。**Catmull-Romスプライン**（`splinePoints`、追加ライブラリなしの自前実装）で点列を滑らかな曲線に変換してから描画。ブラウザのメモリ内だけで保持し、保存・永続化はしない。3更新サイクル(約3分)見えなくなった機体の軌跡は自動で消去
 - ステータス行: 総機数と「うち富山空港発着（確認分）」を表示。0機のときは「現在、このマップで確認できる富山便はありません」（**断定しない表現**にしている——運航の合間か、受信網の穴か、経路DB未登録かを画面からは区別できないため）
-- 更新間隔: 60秒（ページ非表示中はスキップ）
+- 更新間隔: データ取得（GitHub Actions）は5分おき、ブラウザ側の再読み込みは60秒おき（ページ非表示中はスキップ）
 - フォールバック: Leaflet読込失敗→静的OSM iframe／データ取得失敗→地図は残してステータス表示のみ／経路照会失敗→通常色のまま表示
 
 運用上の注意:
 
 - データは有志の受信ネットワーク由来のため**全機が写るとは限りません**（サイト上にも明記済み）
 - 富山便は1日数往復（羽田線）のため、**飛んでいない時間帯があるのは正常**です
-- 各APIのレート制限（目安: 1リクエスト/秒）を尊重し、更新間隔を極端に短くしないこと
+- `data/planes.json` はGitHub Actionsが自動コミットするため、手動編集しないこと
 
 ## 8. 投稿フォームの受け口
 
