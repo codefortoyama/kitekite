@@ -948,12 +948,16 @@
 
   /* ============================================================
      7. ヒーロー写真（Wikimedia Commonsからランダム表示・クレジット付き）
-     - HERO_PHOTOS からランダムに1枚選び、Commons APIで画像URLと
-       撮影者・ライセンス情報を取得して表示する
-     - 取得前は img/tateyama_2.jpg のまま（読み込み失敗時もこれで問題なし）
+     - HERO_PHOTOS をまとめて取得し、シャッフルした順で表示する
+     - PC幅（768px以上）かつ「視差効果を減らす」設定がオフの場合のみ、
+       15秒おきに次の写真へ自動で切り替える。それ以外は最初の1枚のまま
+     - 取得前・失敗時は img/tateyama_2.jpg のまま（フォールバック）
      - Commonsはウィキであり記述が改変され得るため、撮影者名はタグを
        除去したテキストのみを使い、innerHTML には流し込まない
   ============================================================ */
+  const HERO_ROTATE_INTERVAL_MS = 15000;
+  const HERO_ROTATE_MIN_WIDTH = 768;
+
   /** Commonsの撮影日文字列（"2019-02-17 11:21:14" 等）を "2019年2月17日" 形式に整形 */
   function formatCommonsDate(raw) {
     let m = /^(\d{4})-(\d{2})-(\d{2})/.exec(raw);
@@ -965,53 +969,93 @@
     return "";
   }
 
+  /** Fisher-Yatesで配列をシャッフル（元の配列は変更しない） */
+  function shuffled(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
   (function initHeroPhoto() {
     const photoEl = document.getElementById("hero-photo");
     const creditEl = document.getElementById("hero-credit");
     if (!photoEl || !creditEl || typeof HERO_PHOTOS === "undefined" || !HERO_PHOTOS.length) return;
 
-    const title = HERO_PHOTOS[Math.floor(Math.random() * HERO_PHOTOS.length)];
+    const titles = shuffled(HERO_PHOTOS);
     const api = "https://commons.wikimedia.org/w/api.php?action=query&titles=" +
-      encodeURIComponent(title) +
+      titles.map(encodeURIComponent).join("|") +
       "&prop=imageinfo&iiprop=url|extmetadata&format=json&origin=*";
 
     fetch(api, { signal: AbortSignal.timeout(8000) })
       .then(function (res) { if (!res.ok) throw new Error("HTTP " + res.status); return res.json(); })
       .then(function (data) {
-        const pages = data.query && data.query.pages;
-        const page = pages && Object.values(pages)[0];
-        const info = page && page.imageinfo && page.imageinfo[0];
-        if (!info || !info.url || !info.descriptionurl) return;
-        // Commonsの正規URLであることを確認してから使う
-        if (!/^https:\/\/(upload|commons)\.wikimedia\.org\//.test(info.url) ||
-            !/^https:\/\/commons\.wikimedia\.org\//.test(info.descriptionurl)) return;
+        const pages = (data.query && data.query.pages) || {};
+        // titles の順序を保つため、ページ側ではなくtitles側からループする
+        const byTitle = {};
+        Object.values(pages).forEach(function (page) { byTitle[page.title] = page; });
 
-        const meta = info.extmetadata || {};
-        const artistHtml = (meta.Artist && meta.Artist.value) || "";
-        const license = (meta.LicenseShortName && meta.LicenseShortName.value) || "Wikimedia Commons";
-        // Artistフィールドはウィキ記述（HTML）なので、タグ除去してテキストのみ使う
-        const tmp = document.createElement("div");
-        tmp.innerHTML = artistHtml;
-        let artist = (tmp.textContent || "").trim().replace(/\s+/g, " ") || "不明";
-        if (artist.length > 40) artist = artist.slice(0, 40) + "…";
-        const takenOn = formatCommonsDate((meta.DateTimeOriginal && meta.DateTimeOriginal.value) || "");
+        const photos = titles
+          .map(function (t) { return byTitle[t]; })
+          .filter(Boolean)
+          .map(function (page) {
+            const info = page.imageinfo && page.imageinfo[0];
+            if (!info || !info.url || !info.descriptionurl) return null;
+            // Commonsの正規URLであることを確認してから使う
+            if (!/^https:\/\/(upload|commons)\.wikimedia\.org\//.test(info.url) ||
+                !/^https:\/\/commons\.wikimedia\.org\//.test(info.descriptionurl)) return null;
 
-        const img = new Image();
-        img.onload = function () {
-          photoEl.src = info.url;
+            const meta = info.extmetadata || {};
+            const artistHtml = (meta.Artist && meta.Artist.value) || "";
+            const license = (meta.LicenseShortName && meta.LicenseShortName.value) || "Wikimedia Commons";
+            // Artistフィールドはウィキ記述（HTML）なので、タグ除去してテキストのみ使う
+            const tmp = document.createElement("div");
+            tmp.innerHTML = artistHtml;
+            let artist = (tmp.textContent || "").trim().replace(/\s+/g, " ") || "不明";
+            if (artist.length > 40) artist = artist.slice(0, 40) + "…";
+            const takenOn = formatCommonsDate((meta.DateTimeOriginal && meta.DateTimeOriginal.value) || "");
 
-          creditEl.textContent = "";
-          creditEl.append("写真: " + artist + "（" + (takenOn ? takenOn + "撮影、" : "") + "");
-          const a = document.createElement("a");
-          a.href = info.descriptionurl;
-          a.target = "_blank";
-          a.rel = "noopener noreferrer";
-          a.textContent = "Wikimedia Commons, " + license;
-          creditEl.append(a);
-          creditEl.append("）");
-          creditEl.hidden = false;
-        };
-        img.src = info.url;
+            return { url: info.url, descriptionurl: info.descriptionurl, artist: artist, license: license, takenOn: takenOn };
+          })
+          .filter(Boolean);
+
+        if (!photos.length) return;
+
+        function show(photo) {
+          const img = new Image();
+          img.onload = function () {
+            photoEl.src = photo.url;
+            photoEl.alt = "富山空港 / Toyama Airport";
+            creditEl.textContent = "";
+            creditEl.append("写真: " + photo.artist + "（" + (photo.takenOn ? photo.takenOn + "撮影、" : ""));
+            const a = document.createElement("a");
+            a.href = photo.descriptionurl;
+            a.target = "_blank";
+            a.rel = "noopener noreferrer";
+            a.textContent = "Wikimedia Commons, " + photo.license;
+            creditEl.append(a);
+            creditEl.append("）");
+            creditEl.hidden = false;
+          };
+          img.src = photo.url;
+        }
+
+        let index = 0;
+        show(photos[index]);
+
+        const reduceMotion = window.matchMedia &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const isDesktop = window.matchMedia &&
+          window.matchMedia("(min-width: " + HERO_ROTATE_MIN_WIDTH + "px)").matches;
+        if (photos.length > 1 && isDesktop && !reduceMotion) {
+          setInterval(function () {
+            if (document.hidden) return; // 非表示タブでは切り替えない
+            index = (index + 1) % photos.length;
+            show(photos[index]);
+          }, HERO_ROTATE_INTERVAL_MS);
+        }
       })
       .catch(function () {
         // 取得失敗時は既定の写真のまま（クレジットも非表示のまま）
