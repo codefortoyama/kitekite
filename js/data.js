@@ -16,6 +16,24 @@ const AIRPORT = { name: "富山空港", iata: "TOY", lat: 36.6483, lon: 137.1875
 const PLANES_DATA_URL = "data/planes.json";
 
 /**
+ * トップのヒーロー画像候補（Wikimedia Commonsより、富山空港の写真を選定）。
+ * ページ表示のたびにランダムで1枚選び、Commons APIから画像URL・撮影者・
+ * ライセンスを取得して表示する（js/main.js の initHeroPhoto）。
+ * ここには「富山空港カテゴリー」内で内容を確認済みのファイル名だけを追加すること
+ * （カテゴリーには無関係な写真も混在しているため、機械的な全件表示はしない）。
+ */
+const HERO_PHOTOS = [
+  "File:Toyama Airport.jpg",
+  "File:Toyama Airport Aerial photograph.2009.jpg",
+  "File:Toyama Kitokito Airport.jpg",
+  "File:Toyama airport as seen from air 20080916.jpg",
+  "File:Toyama kitokito airport terminal building.jpg",
+  "File:Toyama Airport-富山空港.jpg"
+  // File:Toyama Airport 001.jpg は除外：Artistフィールドが長大なユーザープロフィール
+  // テンプレートになっており、クレジット表示に不向きなため
+];
+
+/**
  * 便名から経路（出発地・目的地）を調べるAPI（adsbdb.com・APIキー不要・CORS対応）
  * 富山空港（TOY / RJNT）発着便の判定に使用します
  */

@@ -124,8 +124,10 @@
     <section class="hero" aria-labelledby="hero-title">
       <!-- 背景写真（立山連峰）。文字の可読性は .hero::after のグラデーションで確保 -->
       <div class="hero-bg" aria-hidden="true">
-        <img class="hero-photo" src="img/tateyama_2.jpg" alt="" fetchpriority="high">
+        <img class="hero-photo" id="hero-photo" src="img/tateyama_2.jpg" alt="" fetchpriority="high">
       </div>
+      <!-- Wikimedia Commonsから取得した写真のクレジット（js/main.js が表示） -->
+      <p class="hero-credit" id="hero-credit" hidden></p>
 
       <div class="hero-content">
         <div class="hero-copy">

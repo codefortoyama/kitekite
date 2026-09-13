@@ -893,6 +893,13 @@ body {
   background: rgba(5, 25, 40, .35);
 }
 .hero .btn-secondary:hover { color: var(--white); background: rgba(255, 255, 255, .1); }
+.hero-credit {
+  position: absolute; right: 12px; bottom: 10px; z-index: 1;
+  margin: 0; padding: 3px 9px;
+  background: rgba(3, 17, 28, .55); border-radius: 3px;
+  font-size: .72rem; color: #cfe3ea;
+}
+.hero-credit a { color: inherit; }
 /* 非公式サイト告知バナー（ヘッダー直下・枠付きで強調） */
 .site-notice {
   margin-top: var(--header-h); /* 固定ヘッダーの下に表示 */

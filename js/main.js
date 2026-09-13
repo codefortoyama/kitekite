@@ -945,4 +945,76 @@
       if (!document.hidden && Date.now() - lastFetched > 55000) fetchPlanes();
     });
   })();
+
+  /* ============================================================
+     7. ヒーロー写真（Wikimedia Commonsからランダム表示・クレジット付き）
+     - HERO_PHOTOS からランダムに1枚選び、Commons APIで画像URLと
+       撮影者・ライセンス情報を取得して表示する
+     - 取得前は img/tateyama_2.jpg のまま（読み込み失敗時もこれで問題なし）
+     - Commonsはウィキであり記述が改変され得るため、撮影者名はタグを
+       除去したテキストのみを使い、innerHTML には流し込まない
+  ============================================================ */
+  /** Commonsの撮影日文字列（"2019-02-17 11:21:14" 等）を "2019年2月17日" 形式に整形 */
+  function formatCommonsDate(raw) {
+    let m = /^(\d{4})-(\d{2})-(\d{2})/.exec(raw);
+    if (m) return m[1] + "年" + Number(m[2]) + "月" + Number(m[3]) + "日";
+    m = /^(\d{4})-(\d{2})$/.exec(raw);
+    if (m) return m[1] + "年" + Number(m[2]) + "月";
+    m = /^(\d{4})$/.exec(raw);
+    if (m) return m[1] + "年";
+    return "";
+  }
+
+  (function initHeroPhoto() {
+    const photoEl = document.getElementById("hero-photo");
+    const creditEl = document.getElementById("hero-credit");
+    if (!photoEl || !creditEl || typeof HERO_PHOTOS === "undefined" || !HERO_PHOTOS.length) return;
+
+    const title = HERO_PHOTOS[Math.floor(Math.random() * HERO_PHOTOS.length)];
+    const api = "https://commons.wikimedia.org/w/api.php?action=query&titles=" +
+      encodeURIComponent(title) +
+      "&prop=imageinfo&iiprop=url|extmetadata&format=json&origin=*";
+
+    fetch(api, { signal: AbortSignal.timeout(8000) })
+      .then(function (res) { if (!res.ok) throw new Error("HTTP " + res.status); return res.json(); })
+      .then(function (data) {
+        const pages = data.query && data.query.pages;
+        const page = pages && Object.values(pages)[0];
+        const info = page && page.imageinfo && page.imageinfo[0];
+        if (!info || !info.url || !info.descriptionurl) return;
+        // Commonsの正規URLであることを確認してから使う
+        if (!/^https:\/\/(upload|commons)\.wikimedia\.org\//.test(info.url) ||
+            !/^https:\/\/commons\.wikimedia\.org\//.test(info.descriptionurl)) return;
+
+        const meta = info.extmetadata || {};
+        const artistHtml = (meta.Artist && meta.Artist.value) || "";
+        const license = (meta.LicenseShortName && meta.LicenseShortName.value) || "Wikimedia Commons";
+        // Artistフィールドはウィキ記述（HTML）なので、タグ除去してテキストのみ使う
+        const tmp = document.createElement("div");
+        tmp.innerHTML = artistHtml;
+        let artist = (tmp.textContent || "").trim().replace(/\s+/g, " ") || "不明";
+        if (artist.length > 40) artist = artist.slice(0, 40) + "…";
+        const takenOn = formatCommonsDate((meta.DateTimeOriginal && meta.DateTimeOriginal.value) || "");
+
+        const img = new Image();
+        img.onload = function () {
+          photoEl.src = info.url;
+
+          creditEl.textContent = "";
+          creditEl.append("写真: " + artist + "（" + (takenOn ? takenOn + "撮影、" : "") + "");
+          const a = document.createElement("a");
+          a.href = info.descriptionurl;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          a.textContent = "Wikimedia Commons, " + license;
+          creditEl.append(a);
+          creditEl.append("）");
+          creditEl.hidden = false;
+        };
+        img.src = info.url;
+      })
+      .catch(function () {
+        // 取得失敗時は既定の写真のまま（クレジットも非表示のまま）
+      });
+  })();
 })();
