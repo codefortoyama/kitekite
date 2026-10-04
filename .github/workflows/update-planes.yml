@@ -28,12 +28,24 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/planes.json
-          git diff --cached --quiet && exit 0
-          git commit -m "chore: update plane data"
-          # 手動編集のpushと競合した場合に備え、リベースして1回だけ再試行する
-          for i in 1 2 3; do
-            git push && exit 0
-            git pull --rebase origin main
+          cp data/planes.json /tmp/planes.json
+
+          # 1分おきの実行同士が同じファイルを取り合うため、rebase/mergeは使わない。
+          # 常にリモート最新コミットの上に、自分が取得した内容を乗せ直して再試行する。
+          for i in 1 2 3 4 5; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/planes.json data/planes.json
+            git add data/planes.json
+            if git diff --cached --quiet; then
+              echo "no changes"
+              exit 0
+            fi
+            git commit -m "chore: update plane data"
+            if git push; then
+              exit 0
+            fi
+            sleep 2
           done
-          git push
+          echo "failed to push after retries"
+          exit 1
