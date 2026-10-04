@@ -220,6 +220,48 @@
 
   renderFares();
 
+  /** "2025-07" → "2025年7月" */
+  function formatYearMonth(ym) {
+    const parts = ym.split("-");
+    return parts.length === 2 ? parts[0] + "年" + Number(parts[1]) + "月" : ym;
+  }
+
+  /** ANA月次輸送実績：路線別テーブルを ANA_TOYAMA_STATS から生成（静的・一度だけ描画） */
+  function renderAnaStats() {
+    if (typeof ANA_TOYAMA_STATS === "undefined") return;
+    [
+      { id: "stats-table-tokyo", rows: ANA_TOYAMA_STATS.tokyo },
+      { id: "stats-table-sapporo", rows: ANA_TOYAMA_STATS.sapporo }
+    ].forEach(function (table) {
+      const tbody = document.querySelector("#" + table.id + " tbody");
+      if (!tbody || !table.rows) return;
+
+      let totalPassengers = 0;
+      const bodyRows = table.rows.map(function (r) {
+        totalPassengers += r.passengers;
+        return (
+          "<tr>" +
+            "<th scope=\"row\">" + esc(formatYearMonth(r.month)) + "</th>" +
+            "<td>" + r.passengers.toLocaleString("ja-JP") + "人</td>" +
+            "<td>" + r.yoy.toFixed(1) + "%</td>" +
+            "<td>" + r.loadFactor.toFixed(1) + "%</td>" +
+          "</tr>"
+        );
+      }).join("");
+
+      const totalRow =
+        "<tr class=\"stats-total\">" +
+          "<th scope=\"row\">12ヶ月合計</th>" +
+          "<td>" + totalPassengers.toLocaleString("ja-JP") + "人</td>" +
+          "<td>－</td><td>－</td>" +
+        "</tr>";
+
+      tbody.innerHTML = bodyRows + totalRow;
+    });
+  }
+
+  renderAnaStats();
+
   /* ============================================================
      3. 投稿一覧：カード描画・カテゴリー絞り込み・「役に立った」
   ============================================================ */

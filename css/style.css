@@ -405,6 +405,35 @@ a:hover { color: var(--deep); }
 .adv-even  .adv-badge { background: #eef1f4; color: #4a5560; }
 .compare-table .adv-badge { display: table; }
 
+/* --- 利用実績テーブル（常時テーブル表示・横スクロール対応） --- */
+.stats-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 28px;
+}
+.stats-table {
+  width: 100%; min-width: 520px;
+  border-collapse: collapse; background: var(--white);
+  font-size: 0.92rem;
+}
+.stats-table thead th {
+  background: var(--deep); color: var(--white);
+  padding: 12px 14px; text-align: right; font-weight: 700;
+  white-space: nowrap;
+}
+.stats-table thead th:first-child { text-align: left; }
+.stats-table tbody th,
+.stats-table tbody td {
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  text-align: right; white-space: nowrap;
+}
+.stats-table tbody th { text-align: left; font-weight: 700; color: var(--deep); }
+.stats-table tbody tr:last-child th,
+.stats-table tbody tr:last-child td { border-bottom: none; }
+.stats-table tbody tr.stats-total th,
+.stats-table tbody tr.stats-total td { font-weight: 700; background: #f5fbf8; }
+
 /* --- スマホ：カード表示（デフォルト非表示、モバイルで切替） --- */
 .compare-cards { display: none; }
 .compare-card {

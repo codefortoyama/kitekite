@@ -34,6 +34,45 @@ const HERO_PHOTOS = [
 ];
 
 /**
+ * 富山空港発着2路線（東京＝富山・富山＝札幌）の月別旅客輸送実績（直近12ヶ月）。
+ * 出典：ANAホールディングス公式プレスリリース「ANA月次輸送実績」
+ * （https://www.anahd.co.jp/group/pr/ 配下、月ごとに個別PDFで公表。発表は対象月の約2ヶ月後）
+ * 富山空港の定期便は東京線・札幌線ともに全便ANA運航のため、この数値がそのまま
+ * 空港全体の定期便利用実績にあたる。yoy=前年比(%)、loadFactor=搭乗率(%)。
+ * 最終確認日：2026年10月4日
+ */
+const ANA_TOYAMA_STATS = {
+  tokyo: [
+    { month: "2025-07", passengers: 20180, yoy: 97.2,  loadFactor: 68.1 },
+    { month: "2025-08", passengers: 23510, yoy: 105.2, loadFactor: 78.5 },
+    { month: "2025-09", passengers: 20509, yoy: 101.3, loadFactor: 73.7 },
+    { month: "2025-10", passengers: 22911, yoy: 104.7, loadFactor: 74.7 },
+    { month: "2025-11", passengers: 22223, yoy: 103.0, loadFactor: 79.9 },
+    { month: "2025-12", passengers: 22967, yoy: 122.4, loadFactor: 72.3 },
+    { month: "2026-01", passengers: 15623, yoy: 97.3,  loadFactor: 53.8 },
+    { month: "2026-02", passengers: 17432, yoy: 133.4, loadFactor: 63.8 },
+    { month: "2026-03", passengers: 22612, yoy: 110.3, loadFactor: 67.7 },
+    { month: "2026-04", passengers: 21176, yoy: 108.3, loadFactor: 77.2 },
+    { month: "2026-05", passengers: 22340, yoy: 104.7, loadFactor: 78.0 },
+    { month: "2026-06", passengers: 19885, yoy: 98.8,  loadFactor: 73.1 }
+  ],
+  sapporo: [
+    { month: "2025-07", passengers: 8669,  yoy: 112.7, loadFactor: 72.1 },
+    { month: "2025-08", passengers: 11210, yoy: 119.4, loadFactor: 93.2 },
+    { month: "2025-09", passengers: 9977,  yoy: 118.2, loadFactor: 85.7 },
+    { month: "2025-10", passengers: 9887,  yoy: 116.7, loadFactor: 86.3 },
+    { month: "2025-11", passengers: 7497,  yoy: 113.7, loadFactor: 87.5 },
+    { month: "2025-12", passengers: 1813,  yoy: 36.4,  loadFactor: 88.7 },
+    { month: "2026-01", passengers: 1170,  yoy: 25.9,  loadFactor: 89.0 },
+    { month: "2026-02", passengers: 3575,  yoy: 72.9,  loadFactor: 67.3 },
+    { month: "2026-03", passengers: 7924,  yoy: 109.1, loadFactor: 77.0 },
+    { month: "2026-04", passengers: 6330,  yoy: 106.7, loadFactor: 63.6 },
+    { month: "2026-05", passengers: 7386,  yoy: 92.9,  loadFactor: 71.8 },
+    { month: "2026-06", passengers: 6942,  yoy: 83.6,  loadFactor: 69.7 }
+  ]
+};
+
+/**
  * 便名から経路（出発地・目的地）を調べるAPI（adsbdb.com・APIキー不要・CORS対応）
  * 富山空港（TOY / RJNT）発着便の判定に使用します
  */
