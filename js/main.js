@@ -939,8 +939,14 @@
     function renderMapStatus() {
       if (!lastFetchInfo) return;
       const toy = countToyPlanes();
+      const stamp = lastFetchInfo.fetchedAt && !isNaN(lastFetchInfo.fetchedAt)
+        ? lastFetchInfo.fetchedAt.toLocaleString("ja-JP", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" })
+        : "時刻不明";
       let text = "周辺の航空機：" + lastFetchInfo.count + "機 ／ うち富山空港発着（確認分）：" + toy + "機" +
-                 "（" + lastFetchInfo.time + " 更新）";
+                 "（" + stamp + " 更新）";
+      if (lastFetchInfo.ageMinutes !== null && lastFetchInfo.ageMinutes > 15) {
+        text += " — データが古い可能性があります";
+      }
       if (toy === 0) {
         // 「飛んでいない」とは断定しない：運航の合間のほか、受信網の状況や
         // 経路データ未登録により、飛んでいても表示・判定できない場合がある
@@ -966,7 +972,11 @@
         if (!res.ok) throw new Error("HTTP " + res.status);
         const data = await res.json();
         const count = drawPlanes(data.aircraft || []);
-        lastFetchInfo = { count: count, time: new Date(data.fetched_at).toLocaleTimeString("ja-JP"), name: data.source };
+        const fetchedAt = data.fetched_at ? new Date(data.fetched_at) : null;
+        const ageMinutes = fetchedAt && !isNaN(fetchedAt)
+          ? (Date.now() - fetchedAt.getTime()) / 60000
+          : null;
+        lastFetchInfo = { count: count, fetchedAt: fetchedAt, ageMinutes: ageMinutes, name: data.source };
         renderMapStatus();
         lookupRoutes(); // 経路を調べてTOY発着便を赤色に（非同期・完了を待たない）
       } catch (_) {
