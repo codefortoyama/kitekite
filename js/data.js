@@ -35,15 +35,14 @@ const HERO_PHOTOS = [
 
 /**
  * 富山空港発着2路線（東京＝富山・富山＝札幌）の月別旅客輸送実績（直近12ヶ月）。
- * 出典：ANAホールディングス公式プレスリリース「ANA月次輸送実績」
- * （https://www.anahd.co.jp/group/pr/ 配下、月ごとに個別PDFで公表。発表は対象月の約2ヶ月後）
+ * 出典：ANA公式「ANA月次輸送実績 2026年9月」国内線路線別旅客輸送実績
+ * （https://www.anahd.co.jp/group/pr/pdf/20261110-2.pdf、2026年11月10日公表）
  * 富山空港の国内定期便は東京線・札幌線ともに全便ANA運航のため、この数値が
  * 国内定期便の利用実績にあたる。yoy=前年比(%)、loadFactor=搭乗率(%)。
- * 最終確認日：2026年10月31日
+ * 国内線路線別の最新公表対象：2026年9月。最終確認日：2026年11月28日
  */
 const ANA_TOYAMA_STATS = {
   tokyo: [
-    { month: "2025-09", passengers: 20509, yoy: 101.3, loadFactor: 73.7 },
     { month: "2025-10", passengers: 22911, yoy: 104.7, loadFactor: 74.7 },
     { month: "2025-11", passengers: 22223, yoy: 103.0, loadFactor: 79.9 },
     { month: "2025-12", passengers: 22967, yoy: 122.4, loadFactor: 72.3 },
@@ -54,10 +53,10 @@ const ANA_TOYAMA_STATS = {
     { month: "2026-05", passengers: 22340, yoy: 104.7, loadFactor: 78.0 },
     { month: "2026-06", passengers: 19885, yoy: 98.8,  loadFactor: 73.1 },
     { month: "2026-07", passengers: 20393, yoy: 101.1, loadFactor: 71.8 },
-    { month: "2026-08", passengers: 22737, yoy: 96.7,  loadFactor: 75.6 }
+    { month: "2026-08", passengers: 22737, yoy: 96.7,  loadFactor: 75.6 },
+    { month: "2026-09", passengers: 20023, yoy: 97.6, loadFactor: 71.3 }
   ],
   sapporo: [
-    { month: "2025-09", passengers: 9977,  yoy: 118.2, loadFactor: 85.7 },
     { month: "2025-10", passengers: 9887,  yoy: 116.7, loadFactor: 86.3 },
     { month: "2025-11", passengers: 7497,  yoy: 113.7, loadFactor: 87.5 },
     { month: "2025-12", passengers: 1813,  yoy: 36.4,  loadFactor: 88.7 },
@@ -68,7 +67,8 @@ const ANA_TOYAMA_STATS = {
     { month: "2026-05", passengers: 7386,  yoy: 92.9,  loadFactor: 71.8 },
     { month: "2026-06", passengers: 6942,  yoy: 83.6,  loadFactor: 69.7 },
     { month: "2026-07", passengers: 7571,  yoy: 87.3,  loadFactor: 73.6 },
-    { month: "2026-08", passengers: 8893,  yoy: 79.3,  loadFactor: 86.4 }
+    { month: "2026-08", passengers: 8893,  yoy: 79.3,  loadFactor: 86.4 },
+    { month: "2026-09", passengers: 8616,  yoy: 86.4, loadFactor: 86.5 }
   ]
 };
 
