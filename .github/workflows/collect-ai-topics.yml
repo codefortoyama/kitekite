@@ -1,0 +1,48 @@
+name: Prepare AI airport topic suggestions
+
+on:
+  schedule:
+    - cron: "0 2 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ai-airport-topic-suggestions
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Generate review candidates from official airport RSS
+        id: collect
+        env:
+          AI_API_URL: ${{ vars.AI_API_URL }}
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          AI_MODEL: ${{ vars.AI_MODEL }}
+        run: node scripts/collect-ai-topics.mjs
+
+      - name: Open or update review pull request
+        if: steps.collect.outputs.has_candidates == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automation/ai-airport-topic-candidates
+          delete-branch: true
+          add-paths: js/ai-topics.js
+          commit-message: "chore: prepare AI airport topic candidates"
+          title: "AIおすすめ情報の掲載候補を確認"
+          body: |
+            富山空港の公式RSSをAIで要約した掲載候補です。
+
+            公開前に、事実・対象条件・掲載日・出典リンクを確認してください。
+            このPRは自動マージされません。承認してマージするとトップのカルーセルに掲載されます。

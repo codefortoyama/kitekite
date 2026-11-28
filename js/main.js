@@ -1113,4 +1113,144 @@
         // 取得失敗時は既定の写真のまま（クレジットも非表示のまま）
       });
   })();
+
+  /* ============================================================
+     10. トップの紹介・AIおすすめカルーセル
+     AI_TOPICS は公式情報をAIで要約した候補から、確認済みのものだけ掲載する
+  ============================================================ */
+  (function initHeroCarousel() {
+    const root = document.getElementById("hero-carousel");
+    const slidesEl = document.getElementById("hero-slides");
+    const controls = document.getElementById("hero-carousel-controls");
+    const dotsEl = document.getElementById("hero-carousel-dots");
+    const statusEl = document.getElementById("hero-carousel-status");
+    const pauseButton = root && root.querySelector("[data-carousel-pause]");
+    if (!root || !slidesEl || !controls || typeof AI_TOPICS === "undefined") return;
+
+    const now = Date.now();
+    const maxAgeMs = 45 * 24 * 60 * 60 * 1000;
+    const topics = AI_TOPICS.filter(function (topic) {
+      if (!topic || typeof topic.title !== "string" || typeof topic.summary !== "string" ||
+          typeof topic.sourceUrl !== "string" || typeof topic.publishedAt !== "string") return false;
+      try {
+        const source = new URL(topic.sourceUrl);
+        const allowedHosts = ["www.toyama-airport.jp", "www.ana.co.jp", "www.anahd.co.jp"];
+        const published = Date.parse(topic.publishedAt + "T00:00:00Z");
+        return source.protocol === "https:" && allowedHosts.indexOf(source.hostname) !== -1 &&
+          Number.isFinite(published) && published <= now && now - published <= maxAgeMs;
+      } catch (_) {
+        return false;
+      }
+    }).slice(0, 3);
+
+    if (!topics.length) return;
+
+    function textElement(tag, className, text) {
+      const el = document.createElement(tag);
+      if (className) el.className = className;
+      el.textContent = text;
+      return el;
+    }
+
+    function formatTopicDate(dateText) {
+      const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateText);
+      return match ? match[1] + "年" + Number(match[2]) + "月" + Number(match[3]) + "日" : dateText;
+    }
+
+    topics.forEach(function (topic) {
+      const slide = document.createElement("div");
+      slide.className = "hero-slide hero-slide-ai";
+      slide.setAttribute("role", "group");
+      slide.setAttribute("aria-roledescription", "スライド");
+      slide.hidden = true;
+
+      slide.appendChild(textElement("p", "hero-ai-label", "AIのおすすめ情報"));
+      slide.appendChild(textElement("h2", "hero-topic-title", topic.title));
+      slide.appendChild(textElement("p", "hero-topic-summary", topic.summary));
+      slide.appendChild(textElement(
+        "p",
+        "hero-topic-disclaimer",
+        "AIが公式発信を要約しています。詳細・最新状況は出典元をご確認ください。"
+      ));
+
+      const sourceLine = document.createElement("p");
+      sourceLine.className = "hero-topic-source";
+      sourceLine.append("出典：");
+      const link = document.createElement("a");
+      link.href = topic.sourceUrl;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = topic.sourceTitle || "公式情報";
+      sourceLine.appendChild(link);
+      sourceLine.append(" ／ 掲載日：" + formatTopicDate(topic.publishedAt));
+      slide.appendChild(sourceLine);
+
+      const cta = document.createElement("div");
+      cta.className = "hero-cta";
+      const sourceButton = document.createElement("a");
+      sourceButton.className = "btn btn-primary";
+      sourceButton.href = topic.sourceUrl;
+      sourceButton.target = "_blank";
+      sourceButton.rel = "noopener noreferrer";
+      sourceButton.append("公式情報を確認 ↗");
+      cta.appendChild(sourceButton);
+      slide.appendChild(cta);
+      slidesEl.appendChild(slide);
+    });
+
+    const slides = Array.prototype.slice.call(slidesEl.querySelectorAll(".hero-slide"));
+    if (slides.length < 2) return;
+
+    let current = 0;
+    let userPaused = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    const dots = [];
+
+    function showSlide(index) {
+      current = (index + slides.length) % slides.length;
+      slides.forEach(function (slide, i) {
+        slide.hidden = i !== current;
+        slide.setAttribute("aria-hidden", i === current ? "false" : "true");
+        slide.setAttribute("aria-label", (i + 1) + " / " + slides.length);
+      });
+      dots.forEach(function (dot, i) {
+        dot.setAttribute("aria-current", i === current ? "true" : "false");
+      });
+      if (statusEl) statusEl.textContent = (current + 1) + " / " + slides.length;
+    }
+
+    slides.forEach(function (_, i) {
+      const dot = document.createElement("button");
+      dot.className = "hero-carousel-dot";
+      dot.type = "button";
+      dot.setAttribute("aria-label", "スライド" + (i + 1) + "を表示");
+      dot.addEventListener("click", function () { showSlide(i); });
+      dots.push(dot);
+      dotsEl.appendChild(dot);
+    });
+
+    const previous = root.querySelector("[data-carousel-prev]");
+    const next = root.querySelector("[data-carousel-next]");
+    if (previous) previous.addEventListener("click", function () { showSlide(current - 1); });
+    if (next) next.addEventListener("click", function () { showSlide(current + 1); });
+    if (pauseButton) {
+      pauseButton.addEventListener("click", function () {
+        userPaused = !userPaused;
+        pauseButton.setAttribute("aria-pressed", userPaused ? "true" : "false");
+        pauseButton.textContent = userPaused ? "自動切替を再開" : "自動切替を一時停止";
+      });
+      if (userPaused) {
+        pauseButton.setAttribute("aria-pressed", "true");
+        pauseButton.textContent = "自動切替を再開";
+      }
+    }
+
+    controls.hidden = false;
+    showSlide(0);
+
+    window.setInterval(function () {
+      if (userPaused || document.hidden || root.matches(":hover") ||
+          (root.contains(document.activeElement) && document.activeElement !== document.body)) return;
+      showSlide(current + 1);
+    }, 12000);
+  })();
 })();

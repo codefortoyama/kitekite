@@ -220,6 +220,57 @@ a:hover { color: var(--deep); }
   padding: 12px 16px; border-radius: var(--radius);
 }
 .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+.hero-slide[hidden] { display: none !important; }
+.hero-slide { animation: hero-slide-in 220ms ease-out; }
+@keyframes hero-slide-in {
+  from { opacity: .55; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-ai-label {
+  display: inline-flex; align-items: center;
+  padding: 9px 18px; margin-top: 22px;
+  background: #ffe08a; color: #302500;
+  border-left: 7px solid #e2a70f;
+  font-size: clamp(1.2rem, 2.2vw, 1.55rem); font-weight: 900; letter-spacing: .04em;
+}
+.hero-topic-title {
+  max-width: 650px; margin-top: 15px;
+  color: var(--white); font-size: clamp(1.65rem, 3.4vw, 2.65rem);
+  font-weight: 900; line-height: 1.3;
+  text-shadow: 0 5px 20px rgba(0, 0, 0, .35);
+}
+.hero-topic-summary {
+  max-width: 620px; margin-top: 13px;
+  color: #f3f8fa; font-size: 1rem; line-height: 1.8;
+  text-shadow: 0 2px 9px rgba(0, 0, 0, .5);
+}
+.hero-topic-disclaimer, .hero-topic-source {
+  max-width: 620px; margin-top: 10px;
+  color: #d0e0e5; font-size: .8rem; line-height: 1.6;
+}
+.hero-topic-source a { color: #bdeeff; text-decoration: underline; text-underline-offset: 3px; }
+.hero-carousel-controls {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+  margin-top: 20px; color: #f3f8fa;
+}
+.hero-carousel-button {
+  min-width: 40px; min-height: 40px; padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, .65);
+  border-radius: 3px; background: rgba(3, 17, 28, .5); color: #fff;
+  font: inherit; font-size: .85rem; cursor: pointer;
+}
+.hero-carousel-button:hover { background: rgba(255, 255, 255, .16); }
+.hero-carousel-button:focus-visible, .hero-carousel-dot:focus-visible {
+  outline: 3px solid #ffe08a; outline-offset: 3px;
+}
+.hero-carousel-status { min-width: 42px; font-size: .82rem; text-align: center; }
+.hero-carousel-dots { display: flex; align-items: center; gap: 7px; }
+.hero-carousel-dot {
+  width: 12px; height: 12px; padding: 0;
+  border: 1px solid #fff; border-radius: 50%;
+  background: transparent; cursor: pointer;
+}
+.hero-carousel-dot[aria-current="true"] { background: #ffe08a; border-color: #ffe08a; }
 
 /* ============================================================
    セクション共通
@@ -1046,11 +1097,20 @@ body {
   .hero-kicker { flex-wrap: wrap; gap: 10px; margin-bottom: 20px; font-size: .62rem; }
   .hero-sub { font-size: 1rem; }
   .hero-note { font-size: .85rem; }
+  .hero-ai-label { margin-top: 16px; font-size: 1.15rem; }
+  .hero-topic-summary { font-size: .9rem; line-height: 1.7; }
+  .hero-carousel-controls { gap: 6px; }
+  .hero-carousel-button { padding-inline: 9px; }
+  .hero-carousel-button[data-carousel-pause] { font-size: .75rem; }
   .site-notice { font-size: 0.85rem; padding: 10px 14px; }
   .section { padding: 68px 18px; }
   .section-title { align-items: flex-start; gap: 13px; font-size: 1.6rem; line-height: 1.4; }
   .section-icon { margin-top: 5px; padding-right: 11px; }
   .section-lead { margin-top: 15px; margin-bottom: 30px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide { animation: none; }
 }
 
 /* ============================================================

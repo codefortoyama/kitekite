@@ -136,16 +136,29 @@
             <span class="hero-suptitle">富山空港を応援する非公式ファンサイト</span>
             富山きてきて空港
           </h1>
-          <p class="hero-sub">東京へ、富山へ、立山を越えて行こう</p>
-          <p class="hero-note">
-            フライトマップ、移動時間の比較、利用者から届いた現地情報をまとめた、富山空港の非公式ファンガイドです。
-            掲載内容の誤りのご指摘、修正依頼は、<a href=index.html#submit>情報投稿フォーム</a>からお知らせください。
-          </p>
+          <div class="hero-carousel" id="hero-carousel" role="region" aria-roledescription="カルーセル" aria-label="富山空港の案内とAIおすすめ情報">
+            <div class="hero-slides" id="hero-slides" aria-live="off">
+              <div class="hero-slide hero-slide-intro" role="group" aria-roledescription="スライド" aria-label="1 / 1">
+                <p class="hero-sub">東京へ、富山へ、立山を越えて行こう</p>
+                <p class="hero-note">
+                  フライトマップ、移動時間の比較、利用者から届いた現地情報をまとめた、富山空港の非公式ファンガイドです。
+                  掲載内容の誤りのご指摘、修正依頼は、<a href="index.html#submit">情報投稿フォーム</a>からお知らせください。
+                </p>
 
-          <div class="hero-cta">
-            <a class="btn btn-primary" href="#flight-map"><span aria-hidden="true">✈</span> 現在のフライトを見る</a>
-            <a class="btn btn-secondary" href="#business">日帰り出張の可否を見る <span aria-hidden="true">→</span></a>
-            <a class="btn btn-secondary" href="#posts">空港情報を見る <span aria-hidden="true">→</span></a>
+                <div class="hero-cta">
+                  <a class="btn btn-primary" href="#flight-map"><span aria-hidden="true">✈</span> 現在のフライトを見る</a>
+                  <a class="btn btn-secondary" href="#business">日帰り出張の可否を見る <span aria-hidden="true">→</span></a>
+                  <a class="btn btn-secondary" href="#posts">空港情報を見る <span aria-hidden="true">→</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="hero-carousel-controls" id="hero-carousel-controls" hidden>
+              <button class="hero-carousel-button" type="button" data-carousel-prev aria-label="前のスライド">‹</button>
+              <span class="hero-carousel-status" id="hero-carousel-status" aria-live="polite"></span>
+              <div class="hero-carousel-dots" id="hero-carousel-dots" role="group" aria-label="スライドを選択"></div>
+              <button class="hero-carousel-button" type="button" data-carousel-pause aria-pressed="false">自動切替を一時停止</button>
+              <button class="hero-carousel-button" type="button" data-carousel-next aria-label="次のスライド">›</button>
+            </div>
           </div>
         </div>
       </div>
@@ -907,6 +920,7 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
           integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/data.js"></script>
+  <script src="js/ai-topics.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

@@ -25,6 +25,7 @@ kitekite/
 │   └── style.css       # 全ページ共通のスタイル
 ├── js/
 │   ├── data.js         # データ・設定（投稿 / 比較データ / API設定）
+│   ├── ai-topics.js    # 出典確認・承認済みのAIおすすめ情報
 │   └── main.js         # UIロジック（ナビ / 描画 / 絞り込み / ライブマップ）
 ├── img/                # 写真（ヒーロー背景・機材写真）
 ├── ogp.png             # OGP画像（1200×630）
@@ -33,16 +34,18 @@ kitekite/
 ├── data/
 │   └── planes.json     # 機体位置データ（GitHub Actionsが自動生成・§7）
 ├── scripts/
-│   └── fetch-planes.mjs   # planes.json を生成するNodeスクリプト（§7）
+│   ├── fetch-planes.mjs   # planes.json を生成するNodeスクリプト（§7）
+│   └── collect-ai-topics.mjs # AIおすすめ情報の掲載候補を作るNodeスクリプト（§4）
 ├── doc/                # 調査レポート・レビュー資料
 ├── .github/workflows/
-│   └── update-planes.yml  # fetch-planes.mjs を定期実行（§7）
+│   ├── update-planes.yml      # fetch-planes.mjs を定期実行（§7）
+│   └── collect-ai-topics.yml  # 公式RSSをAI要約し、確認用PRを作成（§4）
 ├── .nojekyll           # GitHub Pages で Jekyll 処理を無効化
 ├── release.md          # 変更履歴
 └── README.md           # このファイル
 ```
 
-**データとUIの分離**: 表示内容・設定は `js/data.js` に集約されています。
+**データとUIの分離**: 表示内容・設定は `js/data.js` に、確認済みAIおすすめ情報は `js/ai-topics.js` に分けて管理します。
 
 | 定数 | 内容 |
 |---|---|
@@ -51,6 +54,7 @@ kitekite/
 | `ROUTE_TABS` | 移動時間比較（東京→富山 / 富山→東京、各10スポット） |
 | `FARES` | 運賃比較（購入パターン別6行） |
 | `ANA_TOYAMA_STATS` | ANA月次輸送実績（東京－富山／富山－札幌、直近12ヶ月） |
+| `AI_TOPICS` | `js/ai-topics.js` に置く、確認済みAIおすすめ情報 |
 | `HERO_PHOTOS` | ヒーロー画像候補（Wikimedia Commons） |
 | `AIRPORT` | 富山空港の座標（ライブマップの中心） |
 | `PLANES_DATA_URL` | 機体位置データ（GitHub Actionsが生成する静的JSON）のパス |
@@ -58,7 +62,7 @@ kitekite/
 | `GOOGLE_FORM` | 旧・直接POST用設定（現在は無効。§9参照） |
 | `HELPFUL_API` | 「役に立った」集計APIのURL（未設定ならローカル動作） |
 
-**外部依存**: Leaflet 1.9.4（地図描画・CDN読込・SRI付き）、Google アナリティクス（GA4・測定ID `G-0SFK86LPGH`・全ページに設置）、Wikimedia Commons API（ヒーロー画像）、EvoLiNQのGTFSウィジェット（バス時刻表）。Leafletが読み込めない環境では静的地図に自動フォールバックします。
+**外部依存**: Leaflet 1.9.4（地図描画・CDN読込・SRI付き）、Google アナリティクス（GA4・測定ID `G-0SFK86LPGH`・全ページに設置）、Wikimedia Commons API（ヒーロー画像）、EvoLiNQのGTFSウィジェット（バス時刻表）。AI候補の収集・要約はGitHub Actionsから実行し、ブラウザーからAI APIへは接続しません。Leafletが読み込めない環境では静的地図に自動フォールバックします。
 
 ## 2. ローカルでの起動方法
 
@@ -98,7 +102,7 @@ push後 1〜2分で https://codefortoyama.github.io/kitekite/ に反映されま
 |---|---|---|
 | - | 非公式告知バナー | ヘッダー直下に全幅・琥珀色の枠付きで「非公式の私設ファンサイト」を明示 |
 | - | ヘッダー | 上部固定。ロゴに**β版バッジ**。メニュー: 移動時間比較／フライトマップ／アクセス／みんなの投稿／協力者募集／情報を投稿する（767px以下はハンバーガー） |
-| 1 | メインビジュアル | 背景は立山連峰の写真（`img/tateyama_2.jpg`）。暗色グラデーションで文字の可読性を確保。CTAに「日帰り出張の可否を見る」を追加し `#business` へ誘導 |
+| 1 | メインビジュアル | 背景写真とサイトタイトルは維持し、紹介文／大きな「AIのおすすめ情報」表示をカルーセル化。手動切替・一時停止・動きを減らす設定に対応 |
 | 2 | 移動時間比較 | **方向タブ**（東京→富山 / 富山→東京、WAI-ARIAタブ・矢印キー対応）。**飛行機が有利なスポットを上に自動ソート**。PC=表／スマホ=カード。飛行機/新幹線/互角をアイコン＋文字＋色の3重表現 |
 | 2 | 運賃比較 | 同セクション内「運賃でくらべる」。**購入パターン別**（当日/早期予約/セール/パック/**駐車場代**/見落とし費用）。駐車場代の行で富山空港の無料駐車場（1,531台・何泊でも無料）を紹介 |
 | 3 | 日帰り出張シミュレーション | ビジネス層向け。羽田－富山線の実際の時刻表（NH315/NH322、NH312/NH321）を使い、東京⇔富山それぞれの日帰り出張で現地に使える時間を試算。無料駐車場・アンケート分析（ビジネス利用者データ）への導線あり |
@@ -113,6 +117,17 @@ push後 1〜2分で https://codefortoyama.github.io/kitekite/ に反映されま
 
 サブページ（`privacy.html` / `guidelines.html` / `links.html`）は共通の `style.css` を読み込み、
 ヘッダー・フッターのデザインを継承しています。暫定の連絡窓口として GitHub Issues を案内しています。
+
+### AIおすすめ情報の収集・公開
+
+- 収集元は富山空港公式サイトの[RSS](https://www.toyama-airport.jp/feed/)です。直近45日以内の情報から最大3件の候補を作ります。
+- GitHub Actionsが週1回、OpenAI互換のChat Completions APIで見出し・要約候補を生成します。APIへ送るのは公式RSSの記事名・抜粋・URLだけで、サイト訪問者の情報は送信しません。
+- 候補は `js/ai-topics.js` の変更を含む**Pull Request**として作成されます。自動マージ・自動公開はしません。担当者が内容・条件・日付・出典を確認し、PRをマージして初めてカルーセルに表示されます。
+- 自動収集を有効にするには、GitHubリポジトリの **Settings → Secrets and variables → Actions** に設定します。
+  - Secret `AI_API_KEY`: AIサービスのAPIキー
+  - Variable `AI_API_URL`: OpenAI互換のChat Completions URL（例: `https://api.openai.com/v1/chat/completions`）
+  - Variable `AI_MODEL`: 利用するモデル名（例: `gpt-4o-mini`）
+- API設定がない場合は候補生成をスキップします。掲載から45日を過ぎた話題はカルーセルに表示しません。
 
 ## 5. 投稿の運用フロー
 
