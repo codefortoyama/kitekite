@@ -121,13 +121,15 @@ push後 1〜2分で https://codefortoyama.github.io/kitekite/ に反映されま
 ### AIおすすめ情報の収集・公開
 
 - 収集元は富山空港公式サイトの[RSS](https://www.toyama-airport.jp/feed/)です。直近45日以内の情報から最大3件の候補を作ります。
-- GitHub Actionsが週1回、OpenAI互換のChat Completions APIで見出し・要約候補を生成します。APIへ送るのは公式RSSの記事名・抜粋・URLだけで、サイト訪問者の情報は送信しません。
+- GitHub Actionsが週1回、`tripplanner` と同じ `ASSISTANT_*` 設定でOpenAI互換のChat Completions APIを呼び、見出し・要約候補を生成します。APIへ送るのは公式RSSの記事名・抜粋・URLだけで、サイト訪問者の情報は送信しません。
 - 候補は `js/ai-topics.js` の変更を含む**Pull Request**として作成されます。自動マージ・自動公開はしません。担当者が内容・条件・日付・出典を確認し、PRをマージして初めてカルーセルに表示されます。
 - 自動収集を有効にするには、GitHubリポジトリの **Settings → Secrets and variables → Actions** に設定します。
-  - Secret `AI_API_KEY`: AIサービスのAPIキー
-  - Variable `AI_API_URL`: OpenAI互換のChat Completions URL（例: `https://api.openai.com/v1/chat/completions`）
-  - Variable `AI_MODEL`: 利用するモデル名（例: `gpt-4o-mini`）
+  - Secret `ASSISTANT_API_KEY`（または `OPENCODE_GO_API_KEY`）: AIサービスのAPIキー
+  - Variable `ASSISTANT_BASE_URL`: OpenAI互換APIのベースURL。未設定時は `tripplanner/.env.example` と同じ `https://opencode.ai/inference/go/openai/v1`
+  - Variable `ASSISTANT_MODEL`: 未設定時は `deepseek-v4.1-flash`
+  - Variable `ASSISTANT_TIMEOUT_SEC` / `ASSISTANT_SESSION_HEADER`: 未設定時は `30` / `x-opencode-session`。セッションヘッダー不要のAPIでは `ASSISTANT_SESSION_HEADER=none`
 - API設定がない場合は候補生成をスキップします。掲載から45日を過ぎた話題はカルーセルに表示しません。
+- `tripplanner/.env.example` はOpenCode Goを例示していますが、コーディングエージェント向けAPIのため、一般公開サイトで使う場合は提供元の利用条件・上限を確認してください。別のOpenAI互換APIへ切り替える場合は、上記のURL・モデル・ヘッダーを設定します。
 
 ## 5. 投稿の運用フロー
 

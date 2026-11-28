@@ -26,9 +26,12 @@ jobs:
       - name: Generate review candidates from official airport RSS
         id: collect
         env:
-          AI_API_URL: ${{ vars.AI_API_URL }}
-          AI_API_KEY: ${{ secrets.AI_API_KEY }}
-          AI_MODEL: ${{ vars.AI_MODEL }}
+          ASSISTANT_BASE_URL: ${{ vars.ASSISTANT_BASE_URL || 'https://opencode.ai/inference/go/openai/v1' }}
+          ASSISTANT_API_KEY: ${{ secrets.ASSISTANT_API_KEY || secrets.OPENCODE_GO_API_KEY }}
+          ASSISTANT_MODEL: ${{ vars.ASSISTANT_MODEL || 'deepseek-v4.1-flash' }}
+          ASSISTANT_TIMEOUT_SEC: ${{ vars.ASSISTANT_TIMEOUT_SEC || '30' }}
+          ASSISTANT_SESSION_HEADER: ${{ vars.ASSISTANT_SESSION_HEADER || 'x-opencode-session' }}
+          AI_TOPIC_OUTPUT_PATH: js/ai-topics.js
         run: node scripts/collect-ai-topics.mjs
 
       - name: Open or update review pull request

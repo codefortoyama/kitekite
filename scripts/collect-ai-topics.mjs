@@ -1,12 +1,18 @@
 import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const RSS_URL = "https://www.toyama-airport.jp/feed/";
-const OUTPUT_PATH = fileURLToPath(new URL("../js/ai-topics.js", import.meta.url));
+const OUTPUT_PATH = process.env.AI_TOPIC_OUTPUT_PATH
+  ? resolve(process.env.AI_TOPIC_OUTPUT_PATH)
+  : join(tmpdir(), "kitekite-ai-topic-candidates.js");
 const MAX_AGE_DAYS = 45;
 const MAX_ARTICLES = 20;
 const MAX_TOPICS = 3;
+const DEFAULT_BASE_URL = "https://opencode.ai/inference/go/openai/v1";
+const DEFAULT_MODEL = "deepseek-v4.1-flash";
 
 function setOutput(name, value) {
   if (process.env.GITHUB_OUTPUT) {
@@ -73,11 +79,14 @@ function parseFeed(xml) {
 }
 
 async function main() {
-  const apiUrl = process.env.AI_API_URL;
-  const apiKey = process.env.AI_API_KEY;
-  const model = process.env.AI_MODEL;
-  if (!apiUrl || !apiKey || !model) {
-    console.log("AI_API_URL, AI_API_KEY, AI_MODEL are required; skipping candidate generation.");
+  const baseUrl = (process.env.ASSISTANT_BASE_URL || DEFAULT_BASE_URL).trim().replace(/\/+$/, "");
+  const apiKey = (process.env.ASSISTANT_API_KEY || process.env.OPENCODE_GO_API_KEY || "").trim();
+  const model = (process.env.ASSISTANT_MODEL || DEFAULT_MODEL).trim();
+  const timeoutSeconds = Math.min(120, Math.max(5, Number(process.env.ASSISTANT_TIMEOUT_SEC) || 30));
+  const rawSessionHeader = (process.env.ASSISTANT_SESSION_HEADER || "x-opencode-session").trim();
+  const sessionHeader = rawSessionHeader.toLowerCase() === "none" ? "" : rawSessionHeader;
+  if (!apiKey) {
+    console.log("ASSISTANT_API_KEY or OPENCODE_GO_API_KEY is required; skipping candidate generation.");
     await setOutput("has_candidates", "false");
     return;
   }
@@ -114,12 +123,16 @@ async function main() {
     })))
   ].join("\n\n");
 
-  const aiResponse = await fetch(apiUrl, {
+  const headers = {
+    "Authorization": `Bearer ${apiKey}`,
+    "Content-Type": "application/json",
+    "User-Agent": "kitekite-ai-topic-candidates/1.0"
+  };
+  if (sessionHeader) headers[sessionHeader] = "kitekite-ai-topics-weekly";
+
+  const aiResponse = await fetch(`${baseUrl}/chat/completions`, {
     method: "POST",
-    headers: {
-      "Authorization": `Bearer ${apiKey}`,
-      "Content-Type": "application/json"
-    },
+    headers,
     body: JSON.stringify({
       model,
       temperature: 0.2,
@@ -128,7 +141,7 @@ async function main() {
         { role: "user", content: prompt }
       ]
     }),
-    signal: AbortSignal.timeout(60000)
+    signal: AbortSignal.timeout(timeoutSeconds * 1000)
   });
   if (!aiResponse.ok) throw new Error(`AI API failed: HTTP ${aiResponse.status}`);
 
